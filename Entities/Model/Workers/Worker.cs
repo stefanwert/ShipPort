@@ -1,4 +1,5 @@
 ﻿using System;
+using CSharpFunctionalExtensions;
 
 namespace Entities.Model.Workers
 {
@@ -15,6 +16,19 @@ namespace Entities.Model.Workers
         public int YearsOfWorking { get; }
 
         public long Salary { get; }
+
+        public bool IsAvailable { get; }
+
+        protected Worker(Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable)
+        {
+            Id = id;
+            Name = name;
+            Surname = surname;
+            Age = age;
+            YearsOfWorking = yearsOfWorking;
+            Salary = salary;
+            IsAvailable = isAvailable;
+        }
 
     }
 }

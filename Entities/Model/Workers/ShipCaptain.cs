@@ -9,5 +9,12 @@ namespace Entities.Model.Workers
         public int SailingHoursTotal { get; }
 
         public int SailingHoursAsCaptain { get; }
+
+        private ShipCaptain(int sailingHoursTotal, int sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable):
+            base(id, name, surname, age, yearsOfWorking, salary, isAvailable)
+        {
+            SailingHoursTotal = sailingHoursTotal;
+            SailingHoursAsCaptain = sailingHoursAsCaptain;
+        }
     }
 }
