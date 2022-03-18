@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using CSharpFunctionalExtensions;
 
@@ -7,13 +8,15 @@ namespace Entities.Model
 {
     public class Warehouse
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
-        public string Name { get; }
+        public string Name { get; private set; }
 
-        public bool StoreFlammableCargo { get; }
+        public bool StoreFlammableCargo { get; private set; }
 
-        public int CargoCapacity { get; }
+        public int CargoCapacity { get; private set; }
+
+        private Warehouse() { }
         
         private Warehouse(Guid id, string name, bool storeFlammableCargo, int cargoCapacity)
         {

@@ -5,8 +5,9 @@ namespace Entities.Model.Workers
 {
     public class WarehouseClerk : Worker
     {
-        public ClerkRole ClerkRole { get; }
+        public ClerkRole ClerkRole { get; private set; }
 
+        private WarehouseClerk() { }
         private WarehouseClerk(ClerkRole clerkRole, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable)
             : base(id, name, surname, age, yearsOfWorking, salary, isAvailable)
         {

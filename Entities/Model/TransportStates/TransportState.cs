@@ -23,7 +23,15 @@ namespace Entities.Model.TransportStates
 
         protected void StateChangeCheck()
         {
-            if (IsCurrentStateCreateing() && IsTimeToTransport())
+            if (IsTimeToTransport() && !IsTransportReady())
+            {
+                Result<CanceledTransport> result = CanceledTransport.Create(Transport);
+                if (result.IsSuccess)
+                {
+                    Transport.TransportState = result.Value;
+                }
+            }
+            else if (IsCurrentStateCreateing() && IsTimeToTransport())
             {
                 Result<Transporting> result = Transporting.Create(Transport);
                 if (result.IsSuccess)
@@ -31,7 +39,7 @@ namespace Entities.Model.TransportStates
                     Transport.TransportState = result.Value;
                 }
             }
-            else if (IsCurrentStateTransporting() && !IsTimeToTransport()) 
+            else if (IsCurrentStateCanceled() && !IsTimeToTransport())
             {
                 Result<CreateingTransport> result = CreateingTransport.Create(Transport);
                 if (result.IsSuccess)
@@ -40,12 +48,23 @@ namespace Entities.Model.TransportStates
                 }
             }
         }
-
+        private bool IsTransportReady()
+        {
+            if (this.Transport.Ship == null || this.Transport.ShipCaptains == null || this.Transport.ShipPortFrom == null ||
+                this.Transport.ShipPortTo == null || this.Transport.TimeFrom == null || this.Transport.TimeTo == null || this.Transport.Crew == null)
+            {
+                return false;
+            }
+            return true;
+        }
         private bool IsCurrentStateTransporting()
         {
             return Transport.TransportState is Transporting;
         }
-
+        private bool IsCurrentStateCanceled()
+        {
+            return Transport.TransportState is CanceledTransport;
+        }
         private bool IsCurrentStateCreateing()
         {
             return Transport.TransportState is CreateingTransport;

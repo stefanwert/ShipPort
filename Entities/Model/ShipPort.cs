@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
 using Entities.Model.Workers;
 
@@ -7,19 +8,18 @@ namespace Entities.Model
 {
     public class ShipPort
     {
+        public Guid Id { get; private set; }
 
-        public Guid Id { get; }
+        public string Name { get; private set; }
 
-        public string Name { get; }
+        public DateTime TimeOfCreation { get; private set; }
 
-        public DateTime TimeOfCreation { get; }
+        public ICollection<Worker> Workers { get; private set; }
 
-        public ICollection<Worker> Workers { get; }
+        public ICollection<Ship> Ships { get; private set; }
 
-        public ICollection<Ship> Ships { get; }
-
-        public ICollection<Warehouse> Warehouses { get; }
-
+        public ICollection<Warehouse> Warehouses { get; private set; }
+        private ShipPort() { }
         private ShipPort(Guid id, string name, DateTime timeOfCreation, ICollection<Worker> workers, ICollection<Ship> ships, ICollection<Warehouse> warehouses)
         {
             Id = id;

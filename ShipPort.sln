@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebShipPort", "WebApplicati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{AFC96476-D466-4FA8-BCEA-39960EF8FCC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "Repository\DataLayer.csproj", "{40C295C7-862A-40BE-858A-A655A3983047}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AFC96476-D466-4FA8-BCEA-39960EF8FCC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFC96476-D466-4FA8-BCEA-39960EF8FCC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFC96476-D466-4FA8-BCEA-39960EF8FCC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40C295C7-862A-40BE-858A-A655A3983047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C295C7-862A-40BE-858A-A655A3983047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C295C7-862A-40BE-858A-A655A3983047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C295C7-862A-40BE-858A-A655A3983047}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,23 +1,26 @@
 ﻿using System;
-using CSharpFunctionalExtensions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Model.Workers
 {
     public class Worker
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
-        public string Name { get; }
-        
-        public string Surname { get; }
-        
-        public int Age { get; }
+        public string Name { get; private set; }
 
-        public int YearsOfWorking { get; }
+        public string Surname { get; private set; }
 
-        public long Salary { get; }
+        public int Age { get; private set; }
 
-        public bool IsAvailable { get; }
+        public int YearsOfWorking { get; private set; }
+
+        public long Salary { get; private set; }
+
+        public bool IsAvailable { get; private set; }
+
+        protected Worker() { }
 
         protected Worker(Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable)
         {

@@ -1,18 +1,21 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Entities.Model
 {
     public class Ship
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
-        public string Name { get; }
+        public string Name { get; private set; }
 
-        public float Price { get; }
+        public float Price { get; private set; }
 
-        public ShipPort ShipPort { get; }
+        public ShipPort ShipPort { get; private set; }
 
+        private Ship() { }
         private Ship(Guid id, string name, float price, ShipPort shipPort)
         {
             Id = id;

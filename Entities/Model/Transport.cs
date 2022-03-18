@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
 using Entities.Model.TransportStates;
 using Entities.Model.Workers;
@@ -8,25 +9,27 @@ namespace Entities.Model
 {
     public class Transport
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
-        public DateTime TimeFrom { get; }
+        public DateTime TimeFrom { get; private set; }
 
-        public DateTime TimeTo { get; }
+        public DateTime TimeTo { get; private set; }
 
-        public Ship Ship { get; }
+        public Ship Ship { get; private set; }
 
-        public ICollection<ShipCaptain> ShipCaptains { get; }
+        public ICollection<ShipCaptain> ShipCaptains { get; private set; }
 
-        public ShipCaptain CurrentShipCaptain { get; }
+        public ShipCaptain CurrentShipCaptain { get; private set; }
 
-        public ICollection<Crew> Crew { get; }
+        public ICollection<Crew> Crew { get; private set; }
 
-        public ShipPort ShipPortFrom { get; }
+        public ShipPort ShipPortFrom { get; private set; }
 
-        public ShipPort ShipPortTo { get; }
+        public ShipPort ShipPortTo { get; private set; }
 
         public TransportState TransportState { get; set; }
+
+        private Transport() { }
 
         private Transport(Guid id, DateTime timeFrom, DateTime timeTo, Ship ship, ICollection<ShipCaptain> shipCaptains,
             ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, TransportState transportState, ShipCaptain currentShipCaptain)
@@ -39,7 +42,7 @@ namespace Entities.Model
             Crew = crew;
             ShipPortFrom = shipPortFrom;
             ShipPortTo = shipPortTo;
-            TransportState = transportState;
+            //TransportState = transportState;
             CurrentShipCaptain = currentShipCaptain;
         }
 
@@ -59,6 +62,15 @@ namespace Entities.Model
                 return Result.Failure<Transport>("Some property is not seted !!");
             }
             Result<Transport> transport = new Transport(id, timeFrom, timeTo, ship, shipCaptains, crew, shipPortFrom, shipPortTo, transportState, currentShipCaptain);
+            if(transportState == null)
+            {
+                var state = CreateingTransport.Create(transport.Value);
+                if (state.IsSuccess)
+                {
+                    transport.Value.TransportState = state.Value;
+                }
+            }
+            
             return transport;
         }
 
