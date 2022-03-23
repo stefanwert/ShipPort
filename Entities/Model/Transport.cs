@@ -64,7 +64,7 @@ namespace Entities.Model
             Result<Transport> transport = new Transport(id, timeFrom, timeTo, ship, shipCaptains, crew, shipPortFrom, shipPortTo, transportState, currentShipCaptain);
             if(transportState == null)
             {
-                var state = CreateingTransport.Create(transport.Value);
+                var state = CreatingTransport.Create();
                 if (state.IsSuccess)
                 {
                     transport.Value.TransportState = state.Value;
@@ -72,6 +72,34 @@ namespace Entities.Model
             }
             
             return transport;
+        }
+
+        public bool IsCurrentStateTransporting()
+        {
+            return TransportState is Transporting;
+        }
+        public bool IsCurrentStateCanceled()
+        {
+            return TransportState is CanceledTransport;
+        }
+        public bool IsCurrentStateCreateing()
+        {
+            return TransportState is CreatingTransport;
+        }
+        
+        public bool IsTransportReady()
+        {
+            if (Ship == null || ShipCaptains == null || ShipPortFrom == null ||
+                ShipPortTo == null || TimeFrom == null || TimeTo == null || Crew == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool IsTimeToTransport()
+        {
+            return TimeFrom > DateTime.Now && TimeTo < DateTime.Now;
         }
 
     }

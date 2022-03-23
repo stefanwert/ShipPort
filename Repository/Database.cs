@@ -63,21 +63,22 @@ namespace DataLayer
 
         private string ConvertStateToString(TransportState transportState)
         {
-            return transportState is CanceledTransport? "CanceledTransport" 
-                : transportState is CreateingTransport ? "CreateingTransport" 
-                : transportState is CreateingTransport? "CreateingTransport"
-                : string.Empty;
+            // ako ne vraca dobro overajduj to string za svaki
+            return transportState.ToString();
         }
 
         private TransportState ConvertStringToTransportState(string transportState)
         {
-            //to do
-             var x = CanceledTransport.Create(null);
-            if (x.IsSuccess)
-            {
-                return x.Value;
-            }
-            return null;
-;        }
+            var canceledTransport = CanceledTransport.Create();
+            var transporting = Transporting.Create();
+            var createingTransport = CreatingTransport.Create();
+            if (canceledTransport.IsFailure || transporting.IsFailure || createingTransport.IsFailure)
+                return null;
+
+            return canceledTransport.Value.ToString().Equals(transportState) ? canceledTransport.Value :
+                transporting.Value.ToString().Equals(transportState) ? transporting.Value :
+                createingTransport.Value.ToString().Equals(transportState) ? createingTransport.Value: 
+                null;
+        }
     }
 }

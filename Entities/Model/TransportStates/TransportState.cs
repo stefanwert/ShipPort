@@ -7,71 +7,43 @@ namespace Entities.Model.TransportStates
 {
     public abstract class TransportState
     {
-        protected Transport Transport { get; }
 
-        protected TransportState(Transport transport)
+        protected TransportState() { }
+        protected abstract Result<ICollection<ShipCaptain>> AddShipCaptain(Transport transport, ICollection<ShipCaptain> shipCaptain);
+
+        protected abstract Result<ICollection<Crew>> AddShipCrew(Transport transport, ICollection<Crew> crew);
+
+        protected abstract Result<Ship> AddShip(Transport transport, Ship ship);
+
+        protected abstract Result<ShipCaptain> SetCurrentShipCaptain(Transport transport, ShipCaptain shipCaptain);
+        protected void StateChangeCheck(Transport transport)
         {
-            Transport = transport;
-        }
-        protected abstract Result<ICollection<ShipCaptain>> AddShipCaptain(ICollection<ShipCaptain> shipCaptain);
-
-        protected abstract Result<ICollection<Crew>> AddShipCrew(ICollection<Crew> crew);
-
-        protected abstract Result<Ship> AddShip(Ship ship);
-
-        protected abstract Result<ShipCaptain> SetCurrentShipCaptain(ShipCaptain shipCaptain);
-
-        protected void StateChangeCheck()
-        {
-            if (IsTimeToTransport() && !IsTransportReady())
+            if (transport.IsTimeToTransport() && !transport.IsTransportReady())
             {
-                Result<CanceledTransport> result = CanceledTransport.Create(Transport);
+                Result<CanceledTransport> result = CanceledTransport.Create();
                 if (result.IsSuccess)
                 {
-                    Transport.TransportState = result.Value;
+                    transport.TransportState = result.Value;
                 }
             }
-            else if (IsCurrentStateCreateing() && IsTimeToTransport())
+            else if (transport.IsCurrentStateCreateing() && transport.IsTimeToTransport())
             {
-                Result<Transporting> result = Transporting.Create(Transport);
+                Result<Transporting> result = Transporting.Create();
                 if (result.IsSuccess)
                 {
-                    Transport.TransportState = result.Value;
+                    transport.TransportState = result.Value;
                 }
             }
-            else if (IsCurrentStateCanceled() && !IsTimeToTransport())
+            else if (transport.IsCurrentStateCanceled() && !transport.IsTimeToTransport())
             {
-                Result<CreateingTransport> result = CreateingTransport.Create(Transport);
+                Result<CreatingTransport> result = CreatingTransport.Create();
                 if (result.IsSuccess)
                 {
-                    Transport.TransportState = result.Value;
+                    transport.TransportState = result.Value;
                 }
             }
         }
-        private bool IsTransportReady()
-        {
-            if (this.Transport.Ship == null || this.Transport.ShipCaptains == null || this.Transport.ShipPortFrom == null ||
-                this.Transport.ShipPortTo == null || this.Transport.TimeFrom == null || this.Transport.TimeTo == null || this.Transport.Crew == null)
-            {
-                return false;
-            }
-            return true;
-        }
-        private bool IsCurrentStateTransporting()
-        {
-            return Transport.TransportState is Transporting;
-        }
-        private bool IsCurrentStateCanceled()
-        {
-            return Transport.TransportState is CanceledTransport;
-        }
-        private bool IsCurrentStateCreateing()
-        {
-            return Transport.TransportState is CreateingTransport;
-        }
-        private bool IsTimeToTransport()
-        {
-            return this.Transport.TimeFrom > DateTime.Now && this.Transport.TimeTo < DateTime.Now;
-        }
+        public abstract string ToString();
+
     }
 }
