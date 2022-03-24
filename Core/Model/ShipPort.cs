@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
-using Entities.Model.Workers;
+using Core.Model.Workers;
 
-namespace Entities.Model
+namespace Core.Model
 {
     public class ShipPort
     {

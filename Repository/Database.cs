@@ -1,6 +1,6 @@
-﻿using Entities.Model;
-using Entities.Model.TransportStates;
-using Entities.Model.Workers;
+﻿using Core.Model;
+using Core.Model.TransportStates;
+using Core.Model.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 

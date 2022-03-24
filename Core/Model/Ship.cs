@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Entities.Model
+namespace Core.Model
 {
     public class Ship
     {

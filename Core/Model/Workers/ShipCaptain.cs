@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Model.Workers
+namespace Core.Model.Workers
 {
     public class ShipCaptain: Worker
     {

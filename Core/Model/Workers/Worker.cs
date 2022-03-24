@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Entities.Model.Workers
+namespace Core.Model.Workers
 {
     public class Worker
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Entities.Model.Workers
+namespace Core.Model.Workers
 {
     public class Crew: Worker
     {

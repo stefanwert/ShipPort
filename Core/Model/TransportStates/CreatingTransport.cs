@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using CSharpFunctionalExtensions;
-using Entities.Model.Workers;
+using Core.Model.Workers;
 
-namespace Entities.Model.TransportStates
+namespace Core.Model.TransportStates
 {
     public class CreatingTransport : TransportState
     {

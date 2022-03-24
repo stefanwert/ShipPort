@@ -1,7 +1,7 @@
 ﻿using System;
 using CSharpFunctionalExtensions;
 
-namespace Entities.Model.Workers
+namespace Core.Model.Workers
 {
     public class WarehouseClerk : Worker
     {

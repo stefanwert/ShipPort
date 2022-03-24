@@ -1,4 +1,4 @@
-﻿namespace Entities.Model.Workers
+﻿namespace Core.Model.Workers
 {
     public enum CrewRole
     {

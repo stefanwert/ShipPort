@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
-using Entities.Model.TransportStates;
-using Entities.Model.Workers;
+using Core.Model.TransportStates;
+using Core.Model.Workers;
 
-namespace Entities.Model
+namespace Core.Model
 {
     public class Transport
     {

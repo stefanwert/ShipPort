@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using CSharpFunctionalExtensions;
 
-namespace Entities.Model
+namespace Core.Model
 {
     public class Warehouse
     {
@@ -32,11 +32,11 @@ namespace Entities.Model
             {
                 return Result.Failure<Warehouse>("Name is not setted !");
             }
-            if(storeFlammableCargo != null)
+            if(storeFlammableCargo == null)
             {
                 return Result.Failure<Warehouse>("Store flammable cargo is not setted !");
             }
-            if (cargoCapacity != null && cargoCapacity >= 0)
+            if (cargoCapacity == null || cargoCapacity < 0)
             {
                 return Result.Failure<Warehouse>("Cargo capacity is not setted or negative !");
             }
