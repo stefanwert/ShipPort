@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.Model;
 using Core.Service;
 using CSharpFunctionalExtensions;
@@ -22,7 +23,7 @@ namespace WebShipPort.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<Warehouse> ret = (List<Warehouse>)WarehouseService.GetAll();
+            List<Warehouse> ret = WarehouseService.GetAll().ToList();
             return Ok(ret);
         }
 

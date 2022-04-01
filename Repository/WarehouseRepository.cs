@@ -39,7 +39,7 @@ namespace DataLayer
 
         public IEnumerable<Warehouse> GetAll()
         {
-            return Database.Warehouses.ToList();
+            return Database.Warehouses;
         }
 
         public Result<Warehouse> Update(Warehouse warehouse)

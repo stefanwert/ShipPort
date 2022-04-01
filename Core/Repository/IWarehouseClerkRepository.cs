@@ -12,7 +12,7 @@ namespace Core.Repository
         Maybe<WarehouseClerk> FindById(Guid id);
         IEnumerable<WarehouseClerk> GetAll();
         Result<WarehouseClerk> Create(WarehouseClerk warehouseClerk);
-        void DeleteById(Guid id);
+        Maybe<WarehouseClerk> DeleteById(Guid id);
         Result<WarehouseClerk> Update(WarehouseClerk warehouseClerk);
     }
 }

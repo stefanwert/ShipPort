@@ -25,11 +25,12 @@ namespace DataLayer
             return ret;
         }
 
-        public void DeleteById(Guid id)
+        public Maybe<WarehouseClerk> DeleteById(Guid id)
         {
             var warehouseClerk = Database.WarehouseClerks.First(x => x.Id == id);
             Database.WarehouseClerks.Remove(warehouseClerk);
             Database.SaveChanges();
+            return warehouseClerk;
         }
 
         public Maybe<WarehouseClerk> FindById(Guid id)
