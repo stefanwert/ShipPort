@@ -23,11 +23,12 @@ namespace DataLayer
             return ret;
         }
 
-        public void DeleteById(Guid id)
+        public Maybe<Warehouse> DeleteById(Guid id)
         {
             var warehouse = Database.Warehouses.First(x=>x.Id == id);
             Database.Warehouses.Remove(warehouse);
             Database.SaveChanges();
+            return warehouse;
         }
 
         public Maybe<Warehouse> FindById(Guid id)
@@ -38,7 +39,7 @@ namespace DataLayer
 
         public IEnumerable<Warehouse> GetAll()
         {
-            return Database.Warehouses;
+            return Database.Warehouses.ToList();
         }
 
         public Result<Warehouse> Update(Warehouse warehouse)
@@ -47,5 +48,6 @@ namespace DataLayer
             Database.SaveChanges();
             return result.Value;
         }
+
     }
 }
