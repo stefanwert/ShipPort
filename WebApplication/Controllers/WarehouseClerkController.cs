@@ -20,6 +20,7 @@ namespace WebShipPort.Controllers
         {
             WarehouseClerkService = warehouseClerkService;
         }
+
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
