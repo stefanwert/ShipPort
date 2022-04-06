@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Core.Model.Workers;
+using Core.Service;
+using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Core.Model.Workers;
-using Core.Service;
-using Microsoft.AspNetCore.Mvc;
 using WebShipPort.DTO;
 
 namespace WebShipPort.Controllers
@@ -27,47 +27,45 @@ namespace WebShipPort.Controllers
             return Ok(ret);
         }
 
-        //[HttpPost]
-        //public IActionResult Create(CrewDTO crewDTO)
-        //{
-        //    var id = Guid.NewGuid();
-        //    Result<Crew> result = Crew.Create(crewDTO.crew,
-        //        id, crewDTO.Name, crewDTO.Surname, crewDTO.Age,
-        //        crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable);
-        //    if (result.IsFailure)
-        //        return BadRequest(result.Error);
+        [HttpPost]
+        public IActionResult Create(CrewDTO crewDTO)
+        {
+            var id = Guid.NewGuid();
+            Result<Crew> result = Crew.Create(crewDTO.SailingHoursTotal, crewDTO.Role, id, crewDTO.Name,
+                crewDTO.Surname, crewDTO.Age, crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
 
-        //    Result<WarehouseClerk> warehouseCreated = WarehouseClerkService.Create(result.Value);
+            Result<Crew> crewCreated = CrewService.Create(result.Value);
 
-        //    if (warehouseCreated.IsFailure)
-        //        return BadRequest(warehouseCreated.Error);
+            if (crewCreated.IsFailure)
+                return BadRequest(crewCreated.Error);
 
-        //    return Ok(warehouseCreated.Value);
-        //}
+            return Ok(crewCreated.Value);
+        }
 
-        //[HttpPut("update")]
-        //public IActionResult Update(WarehouseClerkDTO warehouseClerkDTO)
-        //{
-        //    Result<WarehouseClerk> warehouse = WarehouseClerk.Create(warehouseClerkDTO.ClerkRole,
-        //        warehouseClerkDTO.Id, warehouseClerkDTO.Name, warehouseClerkDTO.Surname, warehouseClerkDTO.Age,
-        //        warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable);
-        //    if (warehouse.IsFailure)
-        //        return BadRequest(warehouse.Error);
+        [HttpPut("update")]
+        public IActionResult Update(CrewDTO crewDTO)
+        {
+            Result<Crew> crew = Crew.Create(crewDTO.SailingHoursTotal, crewDTO.Role, crewDTO.Id, crewDTO.Name,
+                crewDTO.Surname, crewDTO.Age, crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable);
+            if (crew.IsFailure)
+                return BadRequest(crew.Error);
 
-        //    Result<WarehouseClerk> warehouseUpdated = WarehouseClerkService.Update(warehouse.Value);
-        //    if (warehouseUpdated.IsFailure)
-        //        return BadRequest(warehouseUpdated.Error);
+            Result<Crew> crewUpdated = CrewService.Update(crew.Value);
+            if (crewUpdated.IsFailure)
+                return BadRequest(crewUpdated.Error);
 
-        //    return Ok(warehouseUpdated.Value);
-        //}
+            return Ok(crewUpdated.Value);
+        }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult DeleteById(Guid id)
-        //{
-        //    Maybe<WarehouseClerk> warehouse = WarehouseClerkService.DeleteById(id);
-        //    if (warehouse.HasNoValue)
-        //        return BadRequest("There is no warehouse with id:" + id);
-        //    return Ok(warehouse);
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteById(Guid id)
+        {
+            Maybe<Crew> crew = CrewService.DeleteById(id);
+            if (crew.HasNoValue)
+                return BadRequest("There is no warehouse with id:" + id);
+            return Ok(crew);
+        }
     }
 }
