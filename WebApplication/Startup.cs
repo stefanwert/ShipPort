@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Core.Repository;
+using Core.Service;
+using DataLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DataLayer;
-using Core.Service;
 
 namespace WebApplication123
 {
@@ -39,9 +34,11 @@ namespace WebApplication123
             services.AddScoped<IWarehouseRepository, WarehouseRepository>();
             services.AddScoped<IWarehouseClerkRepository, WarehouseClerkRepository>();
             services.AddScoped<ICrewRepository, CrewRepository>();
+            services.AddScoped<IShipCaptainRepository, ShipCaptainRepository>();
             services.AddScoped<WarehouseService>();
             services.AddScoped<WarehouseClerkService>();
             services.AddScoped<CrewService>();
+            services.AddScoped<ShipCaptainService>();
 
         }
 

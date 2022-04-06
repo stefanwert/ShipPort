@@ -1,8 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Core.Model.Workers
 {
@@ -23,11 +20,11 @@ namespace Core.Model.Workers
         //add create
         public static Result<Crew> Create(int sailingHoursTotal, CrewRole role, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable)
         {
-            if(sailingHoursTotal< 0)
+            if (sailingHoursTotal < 0)
             {
                 return Result.Failure<Crew>("SailingHoursTotal cant be lower then 0 !");
             }
-            if(role == null)
+            if (role == null)
             {
                 return Result.Failure<Crew>("Role cant be null !");
             }
