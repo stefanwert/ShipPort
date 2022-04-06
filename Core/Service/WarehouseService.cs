@@ -9,7 +9,7 @@ namespace Core.Service
 {
     public class WarehouseService
     {
-        private IWarehouseRepository WarehouseRepository;
+        private readonly IWarehouseRepository WarehouseRepository;
         public WarehouseService(IWarehouseRepository warehouseRepository)
         {
             WarehouseRepository = warehouseRepository;

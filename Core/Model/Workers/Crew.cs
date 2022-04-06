@@ -18,5 +18,7 @@ namespace Core.Model.Workers
             SailingHoursTotal = sailingHoursTotal;
             Role = role;
         }
+
+        //add create
     }
 }
