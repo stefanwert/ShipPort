@@ -44,7 +44,7 @@ namespace DataLayer
 
             var converter = new ValueConverter<TransportState, string>(
                 x => ConvertStateToString(x),
-                x => ConvertStringToTransportState(x)
+                x => Transport.ConvertStringToTransportState(x)
                 );
 
             modelBuilder.Entity<Transport>()
@@ -67,18 +67,18 @@ namespace DataLayer
             return transportState.ToString();
         }
 
-        private TransportState ConvertStringToTransportState(string transportState)
-        {
-            var canceledTransport = CanceledTransport.Create();
-            var transporting = Transporting.Create();
-            var createingTransport = CreatingTransport.Create();
-            if (canceledTransport.IsFailure || transporting.IsFailure || createingTransport.IsFailure)
-                return null;
+        //private TransportState ConvertStringToTransportState(string transportState)
+        //{
+        //    var canceledTransport = CanceledTransport.Create();
+        //    var transporting = Transporting.Create();
+        //    var createingTransport = CreatingTransport.Create();
+        //    if (canceledTransport.IsFailure || transporting.IsFailure || createingTransport.IsFailure)
+        //        return null;
 
-            return canceledTransport.Value.ToString().Equals(transportState) ? canceledTransport.Value :
-                transporting.Value.ToString().Equals(transportState) ? transporting.Value :
-                createingTransport.Value.ToString().Equals(transportState) ? createingTransport.Value: 
-                null;
-        }
+        //    return canceledTransport.Value.ToString().Equals(transportState) ? canceledTransport.Value :
+        //        transporting.Value.ToString().Equals(transportState) ? transporting.Value :
+        //        createingTransport.Value.ToString().Equals(transportState) ? createingTransport.Value: 
+        //        null;
+        //}
     }
 }

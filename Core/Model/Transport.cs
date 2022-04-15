@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using CSharpFunctionalExtensions;
-using Core.Model.TransportStates;
+﻿using Core.Model.TransportStates;
 using Core.Model.Workers;
+using CSharpFunctionalExtensions;
+using System;
+using System.Collections.Generic;
 
 namespace Core.Model
 {
@@ -47,13 +46,13 @@ namespace Core.Model
         }
 
         public static Result<Transport> Create(Guid id, DateTime timeFrom, DateTime timeTo, Ship ship, ICollection<ShipCaptain> shipCaptains,
-            ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, TransportState transportState, ShipCaptain currentShipCaptain)
+            ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, string transportStateString, ShipCaptain currentShipCaptain)
         {
             if (timeFrom == null || timeTo == null)
             {
                 return Result.Failure<Transport>("Time is not seted !!!");
             }
-            if(timeFrom > timeTo)
+            if (timeFrom > timeTo)
             {
                 return Result.Failure<Transport>("Choose start date that is earlier than end date !!!");
             }
@@ -61,16 +60,12 @@ namespace Core.Model
             {
                 return Result.Failure<Transport>("Some property is not seted !!");
             }
-            Result<Transport> transport = new Transport(id, timeFrom, timeTo, ship, shipCaptains, crew, shipPortFrom, shipPortTo, transportState, currentShipCaptain);
-            if(transportState == null)
+            if (string.IsNullOrWhiteSpace(transportStateString))
             {
-                var state = CreatingTransport.Create();
-                if (state.IsSuccess)
-                {
-                    transport.Value.TransportState = state.Value;
-                }
+                return Result.Failure<Transport>("Transport state is not setted !");
             }
-            
+            TransportState transportState = ConvertStringToTransportState(transportStateString);
+            Result<Transport> transport = new Transport(id, timeFrom, timeTo, ship, shipCaptains, crew, shipPortFrom, shipPortTo, transportState, currentShipCaptain);
             return transport;
         }
 
@@ -86,7 +81,7 @@ namespace Core.Model
         {
             return TransportState is CreatingTransport;
         }
-        
+
         public bool IsTransportReady()
         {
             if (Ship == null || ShipCaptains == null || ShipPortFrom == null ||
@@ -102,5 +97,18 @@ namespace Core.Model
             return TimeFrom > DateTime.Now && TimeTo < DateTime.Now;
         }
 
+        public static TransportState ConvertStringToTransportState(string transportState)
+        {
+            var canceledTransport = CanceledTransport.Create();
+            var transporting = Transporting.Create();
+            var createingTransport = CreatingTransport.Create();
+            if (canceledTransport.IsFailure || transporting.IsFailure || createingTransport.IsFailure)
+                return null;
+
+            return CanceledTransport.Name.Equals(transportState) ? canceledTransport.Value :
+                Transporting.Name.Equals(transportState) ? transporting.Value :
+                CreatingTransport.Name.Equals(transportState) ? createingTransport.Value :
+                null;
+        }
     }
 }

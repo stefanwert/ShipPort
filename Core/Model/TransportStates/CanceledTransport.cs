@@ -9,6 +9,8 @@ namespace Core.Model.TransportStates
     public class CanceledTransport : TransportState
     {
         public CanceledTransport() : base() { }
+
+        public static readonly string Name = "CanceledTransport";
         public static Result<CanceledTransport> Create()
         {
             Result<CanceledTransport> result = new CanceledTransport();
@@ -41,7 +43,7 @@ namespace Core.Model.TransportStates
 
         public override string ToString()
         {
-            return "CanceledTransport";
+            return Name;
         }
     }
 }

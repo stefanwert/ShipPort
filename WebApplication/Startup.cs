@@ -35,10 +35,12 @@ namespace WebApplication123
             services.AddScoped<IWarehouseClerkRepository, WarehouseClerkRepository>();
             services.AddScoped<ICrewRepository, CrewRepository>();
             services.AddScoped<IShipCaptainRepository, ShipCaptainRepository>();
+            services.AddScoped<ITransportRepository, TransportRepository>();
             services.AddScoped<WarehouseService>();
             services.AddScoped<WarehouseClerkService>();
             services.AddScoped<CrewService>();
             services.AddScoped<ShipCaptainService>();
+            services.AddScoped<TransportService>();
 
         }
 

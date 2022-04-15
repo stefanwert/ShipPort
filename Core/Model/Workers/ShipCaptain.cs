@@ -53,6 +53,10 @@ namespace Core.Model.Workers
             {
                 return Result.Failure<ShipCaptain>("Is available is not setted or it is negative!");
             }
+            if(sailingHoursAsCaptain> sailingHoursTotal)
+            {
+                return Result.Failure<ShipCaptain>("Sailing hours as captain cant be greater then sailing hours total !");
+            }
             Result<ShipCaptain> shipCaptain = new ShipCaptain(sailingHoursTotal, sailingHoursAsCaptain, id, name, surname, age, yearsOfWorking, salary, isAvailable);
             return shipCaptain;
         }

@@ -9,6 +9,8 @@ namespace Core.Model.TransportStates
     {
         private Transporting() : base() { }
 
+        public static readonly string Name = "Transporting";
+
         public static Result<Transporting> Create()
         {
             
@@ -37,7 +39,7 @@ namespace Core.Model.TransportStates
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this, shipCaptain);
+                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), shipCaptain);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<ShipCaptain>(transportRet.Error);
@@ -47,7 +49,7 @@ namespace Core.Model.TransportStates
 
         public override string ToString()
         {
-            return "Transporting";
+            return Name;
 
         }
     }

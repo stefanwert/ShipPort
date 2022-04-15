@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.Model.Workers;
+﻿using Core.Model.Workers;
 using Core.Service;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using WebShipPort.DTO;
 
 namespace WebShipPort.Controllers
@@ -32,8 +31,8 @@ namespace WebShipPort.Controllers
         public IActionResult Create(WarehouseClerkDTO warehouseClerkDTO)
         {
             var id = Guid.NewGuid();
-            Result<WarehouseClerk> result = WarehouseClerk.Create(warehouseClerkDTO.ClerkRole, 
-                id, warehouseClerkDTO.Name, warehouseClerkDTO.Surname, warehouseClerkDTO.Age, 
+            Result<WarehouseClerk> result = WarehouseClerk.Create(warehouseClerkDTO.ClerkRole,
+                id, warehouseClerkDTO.Name, warehouseClerkDTO.Surname, warehouseClerkDTO.Age,
                 warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable);
             if (result.IsFailure)
                 return BadRequest(result.Error);

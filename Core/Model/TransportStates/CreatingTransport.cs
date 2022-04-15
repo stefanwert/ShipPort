@@ -8,6 +8,8 @@ namespace Core.Model.TransportStates
     {
         private CreatingTransport() : base() { }
 
+        public static readonly string Name = "CreatingTransport";
+
         public static Result<CreatingTransport> Create()
         {
             Result<CreatingTransport> result = new CreatingTransport();
@@ -18,7 +20,7 @@ namespace Core.Model.TransportStates
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this, transport.CurrentShipCaptain);
+                ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<Ship>(transportRet.Error);
@@ -30,7 +32,7 @@ namespace Core.Model.TransportStates
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                transport.Ship, shipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this, transport.CurrentShipCaptain);
+                transport.Ship, shipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<ICollection<ShipCaptain>>(transportRet.Error);
@@ -42,7 +44,7 @@ namespace Core.Model.TransportStates
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this, transport.CurrentShipCaptain);
+                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<ICollection<Crew>>(transportRet.Error);
@@ -58,7 +60,7 @@ namespace Core.Model.TransportStates
 
         public override string ToString()
         {
-            return "CreatingTransport";
+            return Name;
 
         }
     }
