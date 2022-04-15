@@ -16,17 +16,17 @@ namespace WebShipPort.DTO
 
         public DateTime TimeTo { get; set; }
 
-        public Ship Ship { get; set; }
+        public ShipDTO Ship { get; set; }
 
-        public ICollection<ShipCaptain> ShipCaptains { get; set; }
+        public ICollection<ShipCaptainDTO> ShipCaptains { get; set; }
 
-        public ShipCaptain CurrentShipCaptain { get; set; }
+        public ShipCaptainDTO CurrentShipCaptain { get; set; }
 
-        public ICollection<Crew> Crew { get; set; }
+        public ICollection<CrewDTO> Crew { get; set; }
 
-        public ShipPort ShipPortFrom { get; set; }
+        public ShipPortDTO ShipPortFrom { get; set; }
 
-        public ShipPort ShipPortTo { get; set; }
+        public ShipPortDTO ShipPortTo { get; set; }
 
         public string TransportState { get; set; }
     }

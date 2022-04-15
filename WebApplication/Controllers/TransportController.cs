@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShipPort.DTO;
+using WebShipPort.Factory;
 
 namespace WebShipPort.Controllers
 {
@@ -15,16 +16,18 @@ namespace WebShipPort.Controllers
     [ApiController]
     public class TransportController : Controller
     {
-        private readonly TransportService TransportService;
-        public TransportController(TransportService transportService)
+        private readonly TransportService _transportService;
+        private readonly TransportFactory _transportFactory;
+        public TransportController(TransportService transportService, TransportFactory transportFactory)
         {
-            TransportService = transportService;
+            _transportService = transportService;
+            _transportFactory = transportFactory;
         }
 
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<Transport> ret = TransportService.GetAll().ToList();
+            List<Transport> ret = _transportService.GetAll().ToList();
             return Ok(ret);
         }
 
@@ -32,19 +35,15 @@ namespace WebShipPort.Controllers
         public IActionResult Create(TransportDTO transportDTO)
         {
             var id = Guid.NewGuid();
-            var transportState = CreatingTransport.Name;
-            Result<Transport> result = Transport.Create(id, transportDTO.TimeFrom, transportDTO.TimeTo,
-                transportDTO.Ship, transportDTO.ShipCaptains, transportDTO.Crew, transportDTO.ShipPortFrom,
-                transportDTO.ShipPortTo, transportState, transportDTO.CurrentShipCaptain);
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            Result<Transport> transport = TransportService.Create(result.Value);
-
+            transportDTO.Id = id;
+            var transport = _transportFactory.Create(transportDTO);
             if (transport.IsFailure)
                 return BadRequest(transport.Error);
 
-            return Ok(transport.Value);
+            var createdTransport = _transportService.Create(transport.Value);
+            if (createdTransport.IsFailure)
+                return BadRequest(createdTransport.Error);
+            return Ok(createdTransport.Value);
         }
 
         //[HttpPut("update")]
