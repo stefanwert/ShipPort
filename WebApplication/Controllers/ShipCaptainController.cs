@@ -19,6 +19,7 @@ namespace WebShipPort.Controllers
         {
             ShipCaptainService = shipCaptainService;
         }
+
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {

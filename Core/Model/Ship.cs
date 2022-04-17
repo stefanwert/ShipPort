@@ -34,10 +34,7 @@ namespace Core.Model
             {
                 return Result.Failure<Ship>("Price is not setted or it is negative !");
             }
-            if (shipPort == null)
-            {
-                return Result.Failure<Ship>("Ship port is not setted !");
-            }
+            
             Result<Ship> result = new Ship(id, name, price, shipPort);
             return result;
         }

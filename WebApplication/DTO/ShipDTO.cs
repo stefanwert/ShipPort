@@ -7,12 +7,12 @@ namespace WebShipPort.DTO
 {
     public class ShipDTO
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public float Price { get; private set; }
+        public float Price { get; set; }
 
-        public ShipPortDTO ShipPort { get; private set; }
+        public ShipPortDTO ShipPort { get; set; }
     }
 }

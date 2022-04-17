@@ -7,16 +7,16 @@ namespace WebShipPort.DTO
 {
     public class ShipPortDTO
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public DateTime TimeOfCreation { get; private set; }
+        public DateTime TimeOfCreation { get; set; }
 
-        public ICollection<WorkerDTO> Workers { get; private set; }
+        public ICollection<WorkerDTO> Workers { get; set; }
 
-        public ICollection<ShipDTO> Ships { get; private set; }
+        public ICollection<ShipDTO> Ships { get; set; }
 
-        public ICollection<WarehouseDTO> Warehouses { get; private set; }
+        public ICollection<WarehouseDTO> Warehouses { get; set; }
     }
 }

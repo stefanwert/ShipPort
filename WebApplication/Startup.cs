@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebShipPort.Factory;
 
 namespace WebApplication123
 {
@@ -36,12 +37,19 @@ namespace WebApplication123
             services.AddScoped<ICrewRepository, CrewRepository>();
             services.AddScoped<IShipCaptainRepository, ShipCaptainRepository>();
             services.AddScoped<ITransportRepository, TransportRepository>();
+            services.AddScoped<IShipPortRepository, ShipPortRepository>();
+            services.AddScoped<IShipRepository, ShipRepository>();
+
             services.AddScoped<WarehouseService>();
             services.AddScoped<WarehouseClerkService>();
             services.AddScoped<CrewService>();
             services.AddScoped<ShipCaptainService>();
             services.AddScoped<TransportService>();
+            services.AddScoped<ShipPortService>();
+            services.AddScoped<ShipService>();
 
+            services.AddScoped<TransportFactory>();
+            services.AddScoped<ShipFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
