@@ -13,6 +13,7 @@ namespace Core.Model
 
         public float Price { get; private set; }
 
+        [Required]
         public ShipPort ShipPort { get; private set; }
 
         private Ship() { }

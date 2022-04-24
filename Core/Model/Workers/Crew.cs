@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Model.Workers
 {
@@ -7,6 +8,7 @@ namespace Core.Model.Workers
     {
         public int SailingHoursTotal { get; private set; }
 
+        [Required]
         public CrewRole Role { get; private set; }
 
         private Crew() : base() { }

@@ -3,6 +3,7 @@ using Core.Model.Workers;
 using CSharpFunctionalExtensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Model
 {
@@ -10,10 +11,13 @@ namespace Core.Model
     {
         public Guid Id { get; private set; }
 
+        [Required]
         public DateTime TimeFrom { get; private set; }
 
+        [Required]
         public DateTime TimeTo { get; private set; }
 
+        [Required]
         public Ship Ship { get; private set; }
 
         public ICollection<ShipCaptain> ShipCaptains { get; private set; }
@@ -22,10 +26,13 @@ namespace Core.Model
 
         public ICollection<Crew> Crew { get; private set; }
 
+        [Required]
         public ShipPort ShipPortFrom { get; private set; }
 
+        [Required]
         public ShipPort ShipPortTo { get; private set; }
 
+        [Required]
         public TransportState TransportState { get; set; }
 
         private Transport() { }
@@ -41,7 +48,7 @@ namespace Core.Model
             Crew = crew;
             ShipPortFrom = shipPortFrom;
             ShipPortTo = shipPortTo;
-            //TransportState = transportState;
+            TransportState = transportState;
             CurrentShipCaptain = currentShipCaptain;
         }
 

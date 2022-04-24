@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
 
 namespace Core.Model.Workers
 {
     public class WarehouseClerk : Worker
     {
+        [Required]
         public ClerkRole ClerkRole { get; private set; }
 
         private WarehouseClerk() { }

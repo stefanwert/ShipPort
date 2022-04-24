@@ -13,6 +13,7 @@ namespace Core.Model
 
         public string Name { get; private set; }
 
+        [Required]
         public DateTime TimeOfCreation { get; private set; }
 
         [JsonIgnore]
