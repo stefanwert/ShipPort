@@ -1,12 +1,10 @@
 ﻿using Core.Model;
-using Core.Model.TransportStates;
 using Core.Service;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebShipPort.DTO;
 using WebShipPort.Factory;
 
@@ -46,28 +44,27 @@ namespace WebShipPort.Controllers
             return Ok(createdTransport.Value);
         }
 
-        //[HttpPut("update")]
-        //public IActionResult Update(CrewDTO crewDTO)
-        //{
-        //    Result<Crew> crew = Crew.Create(crewDTO.SailingHoursTotal, crewDTO.Role, crewDTO.Id, crewDTO.Name,
-        //        crewDTO.Surname, crewDTO.Age, crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable);
-        //    if (crew.IsFailure)
-        //        return BadRequest(crew.Error);
+        [HttpPut("update")]
+        public IActionResult Update(TransportDTO transportDTO)
+        {
+            var transport = _transportFactory.Create(transportDTO);
+            if (transport.IsFailure)
+                return BadRequest(transport.Error);
 
-        //    Result<Crew> crewUpdated = CrewService.Update(crew.Value);
-        //    if (crewUpdated.IsFailure)
-        //        return BadRequest(crewUpdated.Error);
+            var updatedTransport = _transportService.Update(transport.Value);
+            if (updatedTransport.IsFailure)
+                return BadRequest(updatedTransport.Error);
 
-        //    return Ok(crewUpdated.Value);
-        //}
+            return Ok(updatedTransport.Value);
+        }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult DeleteById(Guid id)
-        //{
-        //    Maybe<Crew> crew = CrewService.DeleteById(id);
-        //    if (crew.HasNoValue)
-        //        return BadRequest("There is no warehouse with id:" + id);
-        //    return Ok(crew);
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteById(Guid id)
+        {
+            Maybe<Transport> transport = _transportService.DeleteById(id);
+            if (transport.HasNoValue)
+                return BadRequest("There is no transport with id:" + id);
+            return Ok(transport.Value);
+        }
     }
 }
