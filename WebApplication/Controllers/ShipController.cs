@@ -47,28 +47,27 @@ namespace WebShipPort.Controllers
             return Ok(shipCreated.Value);
         }
 
-        //[HttpPut("update")]
-        //public IActionResult Update(CrewDTO crewDTO)
-        //{
-        //    Result<Crew> crew = Crew.Create(crewDTO.SailingHoursTotal, crewDTO.Role, crewDTO.Id, crewDTO.Name,
-        //        crewDTO.Surname, crewDTO.Age, crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable);
-        //    if (crew.IsFailure)
-        //        return BadRequest(crew.Error);
+        [HttpPut("update")]
+        public IActionResult Update(ShipDTO shipDTO)
+        {
+            var ship = ShipFactory.Create(shipDTO);
+            if (ship.IsFailure)
+                return BadRequest(ship.Error);
 
-        //    Result<Crew> crewUpdated = CrewService.Update(crew.Value);
-        //    if (crewUpdated.IsFailure)
-        //        return BadRequest(crewUpdated.Error);
+            var shipUpdated = ShipService.Update(ship.Value);
+            if (shipUpdated.IsFailure)
+                return BadRequest(shipUpdated.Error);
 
-        //    return Ok(crewUpdated.Value);
-        //}
+            return Ok(shipUpdated.Value);
+        }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult DeleteById(Guid id)
-        //{
-        //    Maybe<Crew> crew = CrewService.DeleteById(id);
-        //    if (crew.HasNoValue)
-        //        return BadRequest("There is no warehouse with id:" + id);
-        //    return Ok(crew);
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteById(Guid id)
+        {
+            var shipDeleted = ShipService.DeleteById(id);
+            if (shipDeleted.HasNoValue)
+                return BadRequest("There is no ship with id:" + id);
+            return Ok(shipDeleted);
+        }
     }
 }
