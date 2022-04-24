@@ -1,11 +1,10 @@
 ﻿using Core.Model;
 using Core.Repository;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer
 {
@@ -34,13 +33,27 @@ namespace DataLayer
 
         public Maybe<Transport> FindById(Guid id)
         {
-            var transport = Database.Transports.Find(id);
+            var transport = Database.Transports.Where(x => x.Id == id)
+                .Include(x => x.Crew)
+                .Include(x => x.CurrentShipCaptain)
+                .Include(x => x.ShipCaptains)
+                .Include(x => x.ShipPortFrom)
+                .Include(x => x.ShipPortTo)
+                .Include(x=>x.Ship)
+                .FirstOrDefault();
             return transport == null ? Maybe.None : transport;
         }
 
         public IEnumerable<Transport> GetAll()
         {
-            return Database.Transports;
+            return Database.Transports
+                .Include(x => x.Crew)
+                .Include(x => x.CurrentShipCaptain)
+                .Include(x => x.ShipCaptains)
+                .Include(x => x.ShipPortFrom)
+                .Include(x => x.ShipPortTo)
+                .Include(x=>x.Ship)
+                .ToList();
         }
 
         public Result<Transport> Update(Transport transport)
