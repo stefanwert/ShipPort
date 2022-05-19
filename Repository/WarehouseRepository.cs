@@ -4,6 +4,7 @@ using System.Linq;
 using Core.Model;
 using Core.Repository;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer
 {
@@ -47,6 +48,12 @@ namespace DataLayer
             Result<Warehouse> result = Database.Warehouses.Update(warehouse).Entity;
             Database.SaveChanges();
             return result.Value;
+        }
+
+        public ICollection<Warehouse> FindByShipPortId(Guid id)
+        {
+            var shipPort = Database.ShipPorts.Include(x => x.Warehouses).Where(s => s.Id == id).FirstOrDefault();
+            return shipPort?.Warehouses;
         }
 
     }

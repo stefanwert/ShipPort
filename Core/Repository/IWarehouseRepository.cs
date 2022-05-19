@@ -14,5 +14,6 @@ namespace Core.Repository
         Result<Warehouse> Create(Warehouse warehouse);
         Maybe<Warehouse> DeleteById(Guid id);
         Result<Warehouse> Update(Warehouse warehouse);
+        ICollection<Warehouse> FindByShipPortId(Guid id);
     }
 }

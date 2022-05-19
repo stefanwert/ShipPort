@@ -66,5 +66,15 @@ namespace WebShipPort.Controllers
             return Ok(warehouse);
         }
 
+        [HttpGet("getAllByShipPortId/{shipPortId}")]
+        public IActionResult getAllByShipPortId(Guid shipPortId)
+        {
+            if (shipPortId == Guid.Empty)
+                return BadRequest("Ship port id is not setted");
+
+            List<Warehouse> ret = WarehouseService.FindByShipPortId(shipPortId).ToList();
+            return Ok(ret);
+        }
+
     }
 }

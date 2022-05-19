@@ -25,6 +25,8 @@ namespace Core.Model
         [JsonIgnore]
         public ICollection<Warehouse> Warehouses { get; private set; }
 
+        public bool Deleted { get; set; }
+
         private ShipPort() { }
         private ShipPort(Guid id, string name, DateTime timeOfCreation, ICollection<Worker> workers, ICollection<Ship> ships, ICollection<Warehouse> warehouses)
         {

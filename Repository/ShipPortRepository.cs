@@ -26,7 +26,7 @@ namespace DataLayer
         public Maybe<ShipPort> DeleteById(Guid id)
         {
             var shipPort = Database.ShipPorts.First(x => x.Id == id);
-            Database.ShipPorts.Remove(shipPort);
+            Database.ShipPorts.Update(shipPort);
             Database.SaveChanges();
             return shipPort;
         }

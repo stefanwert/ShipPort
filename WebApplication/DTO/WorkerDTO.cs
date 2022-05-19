@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Model.Workers;
+using System;
 
 namespace WebShipPort.DTO
 {
@@ -17,5 +18,16 @@ namespace WebShipPort.DTO
         public long Salary { get; set; }
 
         public bool IsAvailable { get; set; }
+        public WorkerDTO() { }
+        public WorkerDTO(Worker worker)
+        {
+            Id = worker.Id;
+            Name = worker.Name;
+            Surname = worker.Surname;
+            Age = worker.Age;
+            YearsOfWorking = worker.YearsOfWorking;
+            Salary = worker.Salary;
+            IsAvailable = IsAvailable;
+        }
     }
 }

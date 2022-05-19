@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,5 +15,14 @@ namespace WebShipPort.DTO
         public float Price { get; set; }
 
         public ShipPortDTO ShipPort { get; set; }
+
+        public ShipDTO() { }
+
+        public ShipDTO(Ship ship)
+        {
+            Id = ship.Id;
+            Name = ship.Name;
+            Price = ship.Price;
+        }
     }
 }

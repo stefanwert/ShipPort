@@ -11,5 +11,13 @@ namespace WebShipPort.DTO
         public int SailingHoursTotal { get; set; }
 
         public CrewRole Role { get; set; }
+        
+        public CrewDTO() { }
+
+        public CrewDTO(Crew crew):base(crew)
+        {
+            SailingHoursTotal = crew.SailingHoursTotal;
+            Role = crew.Role;
+        }
     }
 }

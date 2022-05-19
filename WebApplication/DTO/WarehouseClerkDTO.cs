@@ -8,8 +8,13 @@ namespace WebShipPort.DTO
 {
     public class WarehouseClerkDTO : WorkerDTO
     {
-        public WarehouseClerkDTO(): base() { }
-
         public ClerkRole ClerkRole { get; set; }
+
+        public WarehouseClerkDTO() { }
+
+        public WarehouseClerkDTO(WarehouseClerk warehouseClerk) : base(warehouseClerk)
+        {
+            ClerkRole = warehouseClerk.ClerkRole;
+        }
     }
 }

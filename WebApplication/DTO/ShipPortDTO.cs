@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Core.Model;
+using Core.Model.Workers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,5 +20,46 @@ namespace WebShipPort.DTO
         public ICollection<ShipDTO> Ships { get; set; }
 
         public ICollection<WarehouseDTO> Warehouses { get; set; }
+
+        public ShipPortDTO() { }
+        public ShipPortDTO(ShipPort shipPort)
+        {
+            Id = shipPort.Id;
+            Name = shipPort.Name;
+            TimeOfCreation = shipPort.TimeOfCreation;
+            Workers = new List<WorkerDTO>();
+            foreach(var worker in shipPort.Workers ?? Enumerable.Empty<Worker>())
+            {
+                if(worker is ShipCaptain)
+                {
+                    var workeTemp = new ShipCaptainDTO(worker as ShipCaptain);
+                    Workers.Add(workeTemp);
+                }
+                else if(worker is Crew)
+                {
+                    var workeTemp = new CrewDTO(worker as Crew);
+                    Workers.Add(workeTemp);
+                }
+                else if(worker is WarehouseClerk)
+                {
+                    var workeTemp = new WarehouseClerkDTO(worker as WarehouseClerk);
+                    Workers.Add(workeTemp);
+                }
+            }
+
+            Ships = new List<ShipDTO>();
+            foreach(var ship in shipPort.Ships ?? Enumerable.Empty<Ship>())
+            {
+                var shipTemp = new ShipDTO(ship);
+                Ships.Add(shipTemp);
+            }
+
+            Warehouses = new List<WarehouseDTO>();
+            foreach(var warehouse in shipPort.Warehouses)
+            {
+                var warehouseTemp = new WarehouseDTO(warehouse);
+                Warehouses.Add(warehouseTemp);
+            }
+        }
     }
 }
