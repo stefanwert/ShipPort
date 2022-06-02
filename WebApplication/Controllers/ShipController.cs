@@ -28,8 +28,9 @@ namespace WebShipPort.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<Ship> ret = ShipService.GetAll().ToList();
-            return Ok(ret);
+            IEnumerable<Ship> shipList = ShipService.GetAll();
+            var retList = shipList.Select(x => new ShipDTO(x));
+            return Ok(retList);
         }
         [HttpPost]
         public IActionResult Create(ShipDTO shipDTO)
@@ -44,7 +45,7 @@ namespace WebShipPort.Controllers
             if (shipCreated.IsFailure)
                 return BadRequest(shipCreated.Error);
 
-            return Ok(shipCreated.Value);
+            return Ok(new ShipDTO( shipCreated.Value));
         }
 
         [HttpPut("update")]
@@ -58,7 +59,7 @@ namespace WebShipPort.Controllers
             if (shipUpdated.IsFailure)
                 return BadRequest(shipUpdated.Error);
 
-            return Ok(shipUpdated.Value);
+            return Ok(new ShipDTO(shipUpdated.Value));
         }
 
         [HttpDelete("{id}")]
@@ -67,7 +68,7 @@ namespace WebShipPort.Controllers
             var shipDeleted = ShipService.DeleteById(id);
             if (shipDeleted.HasNoValue)
                 return BadRequest("There is no ship with id:" + id);
-            return Ok(shipDeleted);
+            return Ok(new ShipDTO(shipDeleted.Value));
         }
     }
 }

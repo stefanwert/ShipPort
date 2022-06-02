@@ -1,8 +1,10 @@
-﻿using Core.Model.Workers;
+﻿using Core.Model;
+using Core.Model.Workers;
 using Core.Repository;
 using CSharpFunctionalExtensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Core.Service
@@ -45,6 +47,22 @@ namespace Core.Service
         {
             Result<ShipCaptain> ret = ShipCaptainRepository.Update(shipCaptain);
             return Result.Success(ret.Value);
+        }
+
+        public void ChangeShipCaptainsLocation(Transport transport)
+        {
+            var shipPort = transport.ShipPortTo;
+            var numberOfShipCaptains = transport.ShipCaptains.Count;
+            foreach(var shipCaptain in transport.ShipCaptains ?? Enumerable.Empty<ShipCaptain>())
+            {
+                var transportTime = transport.TimeTo.Subtract(transport.TimeFrom);
+                var transportTimeInHours = transportTime.TotalHours;
+                var SailingHoursTotalNew = shipCaptain.SailingHoursTotal + transportTimeInHours;
+                var sailingHoursAsCaptain = shipCaptain.SailingHoursAsCaptain + transportTimeInHours / numberOfShipCaptains;
+                Result<ShipCaptain> result = ShipCaptain.Create(SailingHoursTotalNew, sailingHoursAsCaptain, shipCaptain.Id, shipCaptain.Name, shipCaptain.Surname, shipCaptain.Age, shipCaptain.YearsOfWorking, shipCaptain.Salary, true, shipPort);
+
+                ShipCaptainRepository.Update(shipCaptain);
+            }
         }
     }
 }

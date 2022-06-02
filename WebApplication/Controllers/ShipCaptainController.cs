@@ -23,8 +23,9 @@ namespace WebShipPort.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<ShipCaptain> ret = ShipCaptainService.GetAll().ToList();
-            return Ok(ret);
+            IEnumerable<ShipCaptain> listShipCap = ShipCaptainService.GetAll();
+            var retList = listShipCap.Select(x => new ShipCaptainDTO(x));
+            return Ok(retList);
         }
 
 
@@ -37,12 +38,12 @@ namespace WebShipPort.Controllers
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
-            Result<ShipCaptain> warehouseCreated = ShipCaptainService.Create(result.Value);
+            Result<ShipCaptain> shipCaptainCreated = ShipCaptainService.Create(result.Value);
 
-            if (warehouseCreated.IsFailure)
-                return BadRequest(warehouseCreated.Error);
+            if (shipCaptainCreated.IsFailure)
+                return BadRequest(shipCaptainCreated.Error);
 
-            return Ok(warehouseCreated.Value);
+            return Ok(new ShipCaptainDTO( shipCaptainCreated.Value));
         }
 
         [HttpPut("update")]
@@ -57,7 +58,7 @@ namespace WebShipPort.Controllers
             if (shipCaptainUpdated.IsFailure)
                 return BadRequest(shipCaptainUpdated.Error);
 
-            return Ok(shipCaptainUpdated.Value);
+            return Ok(new ShipCaptainDTO( shipCaptainUpdated.Value));
         }
 
         [HttpDelete("{id}")]
@@ -66,7 +67,7 @@ namespace WebShipPort.Controllers
             Maybe<ShipCaptain> shipCaptain = ShipCaptainService.DeleteById(id);
             if (shipCaptain.HasNoValue)
                 return BadRequest("There is no warehouse with id:" + id);
-            return Ok(shipCaptain);
+            return Ok(new ShipCaptainDTO(shipCaptain.Value));
         }
     }
 }

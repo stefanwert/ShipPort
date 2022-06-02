@@ -70,27 +70,22 @@ namespace WebShipPort.Factory
             var workers = new List<Worker>();
             foreach (var workerDto in shipPortDTO.Workers ?? Enumerable.Empty<WorkerDTO>())
             {
-                var captain = _shipCaptainService.FindById(workerDto.Id);
-                if (captain.HasValue)
+                //refactor this method
+                if (workerDto is CrewDTO)
                 {
-                    workers.Add(captain.Value);
-                    continue;
-                }
-
-                var crew = _crewService.FindById(workerDto.Id);
-                if (crew.HasValue)
-                {
+                    var crew = _crewService.FindById(workerDto.Id);
                     workers.Add(crew.Value);
-                    continue;
                 }
-
-                var warhouseClerk = _warehouseClerkService.FindById(workerDto.Id);
-                if (warhouseClerk.HasValue)
+                else if(workerDto is ShipCaptainDTO)
                 {
-                    workers.Add(warhouseClerk.Value);
-                    continue;
+                    var captain = _shipCaptainService.FindById(workerDto.Id);
+                    workers.Add(captain.Value);
                 }
-
+                else if(workerDto is WarehouseClerkDTO)
+                {
+                    var warhouseClerk = _warehouseClerkService.FindById(workerDto.Id);
+                    workers.Add(warhouseClerk.Value);
+                }
             }
 
             return workers;

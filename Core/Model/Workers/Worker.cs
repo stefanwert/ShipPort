@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Model.Workers
 {
-    public class Worker
+    public abstract class Worker
     {
         public Guid Id { get; private set; }
 
@@ -20,9 +20,11 @@ namespace Core.Model.Workers
 
         public bool IsAvailable { get; private set; }
 
+        public ShipPort ShipPort { get; private set; }
+
         protected Worker() { }
 
-        protected Worker(Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable)
+        protected Worker(Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort)
         {
             Id = id;
             Name = name;
@@ -31,6 +33,7 @@ namespace Core.Model.Workers
             YearsOfWorking = yearsOfWorking;
             Salary = salary;
             IsAvailable = isAvailable;
+            ShipPort = shipPort;
         }
 
     }

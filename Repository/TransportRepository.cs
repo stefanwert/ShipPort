@@ -1,4 +1,5 @@
 ﻿using Core.Model;
+using Core.Model.TransportStates;
 using Core.Repository;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -52,8 +53,7 @@ namespace DataLayer
                 .Include(x => x.ShipCaptains)
                 .Include(x => x.ShipPortFrom)
                 .Include(x => x.ShipPortTo)
-                .Include(x=>x.Ship)
-                .ToList();
+                .Include(x => x.Ship);
         }
 
         public Result<Transport> Update(Transport transport)
@@ -61,6 +61,17 @@ namespace DataLayer
             Result<Transport> result = Database.Transports.Update(transport).Entity;
             Database.SaveChanges();
             return result;
+        }
+
+        public IEnumerable<Transport> GetAllActive()
+        {
+            return Database.Transports.Include(x => x.Crew)
+                .Include(x => x.CurrentShipCaptain)
+                .Include(x => x.ShipCaptains)
+                .Include(x => x.ShipPortFrom)
+                .Include(x => x.ShipPortTo)
+                .Include(x => x.Ship)
+                .Where(x => x.TransportState.Equals(Transporting.Name));
         }
     }
 }

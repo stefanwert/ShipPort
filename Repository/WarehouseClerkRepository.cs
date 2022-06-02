@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using Core.Model.Workers;
 using Core.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer
 {
@@ -41,7 +42,7 @@ namespace DataLayer
 
         public IEnumerable<WarehouseClerk> GetAll()
         {
-            return Database.WarehouseClerks;
+            return Database.WarehouseClerks.Include(x => x.ShipPort);
         }
 
         public Result<WarehouseClerk> Update(WarehouseClerk warehouseClerk)

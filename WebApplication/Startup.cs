@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebShipPort.Factory;
+using WebShipPort.HostedServices;
 
 namespace WebApplication123
 {
@@ -42,26 +43,29 @@ namespace WebApplication123
                                   });
             });
 
-            services.AddScoped<Database>();
-            services.AddScoped<IWarehouseRepository, WarehouseRepository>();
-            services.AddScoped<IWarehouseClerkRepository, WarehouseClerkRepository>();
-            services.AddScoped<ICrewRepository, CrewRepository>();
-            services.AddScoped<IShipCaptainRepository, ShipCaptainRepository>();
-            services.AddScoped<ITransportRepository, TransportRepository>();
-            services.AddScoped<IShipPortRepository, ShipPortRepository>();
-            services.AddScoped<IShipRepository, ShipRepository>();
+            services.AddTransient<Database>();
+            services.AddTransient<IWarehouseRepository, WarehouseRepository>();
+            services.AddTransient<IWarehouseClerkRepository, WarehouseClerkRepository>();
+            services.AddTransient<ICrewRepository, CrewRepository>();
+            services.AddTransient<IShipCaptainRepository, ShipCaptainRepository>();
+            services.AddTransient<ITransportRepository, TransportRepository>();
+            services.AddTransient<IShipPortRepository, ShipPortRepository>();
+            services.AddTransient<IShipRepository, ShipRepository>();
 
-            services.AddScoped<WarehouseService>();
-            services.AddScoped<WarehouseClerkService>();
-            services.AddScoped<CrewService>();
-            services.AddScoped<ShipCaptainService>();
-            services.AddScoped<TransportService>();
-            services.AddScoped<ShipPortService>();
-            services.AddScoped<ShipService>();
+            services.AddTransient<WarehouseService>();
+            services.AddTransient<WarehouseClerkService>();
+            services.AddTransient<CrewService>();
+            services.AddTransient<ShipCaptainService>();
+            services.AddTransient<TransportService>();
+            services.AddTransient<ShipPortService>();
+            services.AddTransient<ShipService>();
 
-            services.AddScoped<TransportFactory>();
-            services.AddScoped<ShipFactory>();
-            services.AddScoped<ShipPortFactory>();
+            services.AddTransient<TransportFactory>();
+            services.AddTransient<ShipFactory>();
+            services.AddTransient<ShipPortFactory>();
+
+            services.AddHostedService<TimedHostedService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,15 +77,6 @@ namespace WebApplication123
             }
 
             app.UseRouting();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    //endpoints.MapGet("/", async context =>
-            //    //{
-            //    //    await context.Response.WriteAsync("Hello World!");
-            //    //});
-            //    endpoints.MapControllers();
-            //});
 
             app.UseCors(MyAllowSpecificOrigins);
 

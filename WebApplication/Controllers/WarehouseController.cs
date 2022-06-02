@@ -23,8 +23,9 @@ namespace WebShipPort.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<Warehouse> ret = WarehouseService.GetAll().ToList();
-            return Ok(ret);
+            IEnumerable<Warehouse> warehouseList = WarehouseService.GetAll();
+            var retList = warehouseList.Select(x => new WarehouseDTO(x));
+            return Ok(retList);
         }
 
         [HttpPost]
@@ -40,7 +41,7 @@ namespace WebShipPort.Controllers
             if (warehouseCreated.IsFailure)
                 return BadRequest(warehouseCreated.Error);
 
-            return Ok(warehouseCreated.Value);
+            return Ok(new WarehouseDTO(warehouseCreated.Value));
         }
 
         [HttpPut("update")]
@@ -54,7 +55,7 @@ namespace WebShipPort.Controllers
             if (warehouseUpdated.IsFailure)
                 return BadRequest(warehouseUpdated.Error);
 
-            return Ok(warehouseUpdated.Value);
+            return Ok(new WarehouseDTO(warehouseUpdated.Value));
         }
 
         [HttpDelete("{id}")]
@@ -63,7 +64,7 @@ namespace WebShipPort.Controllers
             Maybe<Warehouse> warehouse = WarehouseService.DeleteById(id);
             if (warehouse.HasNoValue)
                 return BadRequest("There is no warehouse with id:" + id);
-            return Ok(warehouse);
+            return Ok(new WarehouseDTO(warehouse.Value));
         }
 
         [HttpGet("getAllByShipPortId/{shipPortId}")]
@@ -72,8 +73,9 @@ namespace WebShipPort.Controllers
             if (shipPortId == Guid.Empty)
                 return BadRequest("Ship port id is not setted");
 
-            List<Warehouse> ret = WarehouseService.FindByShipPortId(shipPortId).ToList();
-            return Ok(ret);
+            IEnumerable<Warehouse> ret = WarehouseService.FindByShipPortId(shipPortId);
+            var retList = ret.Select(x => new WarehouseDTO(x));
+            return Ok(retList);
         }
 
     }

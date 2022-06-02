@@ -27,7 +27,7 @@ namespace WebShipPort.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<ShipPort> ret = ShipPortService.GetAll().ToList();
+            IEnumerable<ShipPort> ret = ShipPortService.GetAll();
             var retnew = ret.Select(x => new ShipPortDTO(x));
             return Ok(retnew);
         }
@@ -47,6 +47,9 @@ namespace WebShipPort.Controllers
         public IActionResult Create(ShipPortDTO shipPortDTO)
         {
             var id = Guid.NewGuid();
+            if (shipPortDTO == null)
+                return BadRequest("");
+
             var shipPort = ShipPortFactory.Create(shipPortDTO);
             if (shipPort.IsFailure)
                 return BadRequest(shipPort.Error);

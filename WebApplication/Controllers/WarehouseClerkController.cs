@@ -23,8 +23,9 @@ namespace WebShipPort.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<WarehouseClerk> ret = WarehouseClerkService.GetAll().ToList();
-            return Ok(ret);
+            IEnumerable<WarehouseClerk> warehouseList = WarehouseClerkService.GetAll();
+            var retList = warehouseList.Select(x => new WarehouseClerkDTO(x));
+            return Ok(warehouseList);
         }
 
         [HttpPost]
@@ -42,7 +43,7 @@ namespace WebShipPort.Controllers
             if (warehouseCreated.IsFailure)
                 return BadRequest(warehouseCreated.Error);
 
-            return Ok(warehouseCreated.Value);
+            return Ok(new WarehouseClerkDTO(warehouseCreated.Value));
         }
 
         [HttpPut("update")]
@@ -58,7 +59,7 @@ namespace WebShipPort.Controllers
             if (warehouseUpdated.IsFailure)
                 return BadRequest(warehouseUpdated.Error);
 
-            return Ok(warehouseUpdated.Value);
+            return Ok(new WarehouseClerkDTO(warehouseUpdated.Value));
         }
 
         [HttpDelete("{id}")]
@@ -67,7 +68,7 @@ namespace WebShipPort.Controllers
             Maybe<WarehouseClerk> warehouse = WarehouseClerkService.DeleteById(id);
             if (warehouse.HasNoValue)
                 return BadRequest("There is no warehouse with id:" + id);
-            return Ok(warehouse);
+            return Ok(new WarehouseClerkDTO(warehouse.Value));
         }
     }
 }

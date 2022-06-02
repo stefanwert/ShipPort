@@ -9,7 +9,7 @@ namespace Core.Service
     public class ShipService
     {
         private IShipRepository ShipRepository;
-
+        
         public ShipService(IShipRepository shipRepository)
         {
             ShipRepository = shipRepository;
@@ -44,6 +44,19 @@ namespace Core.Service
         {
             Result<Ship> ret = ShipRepository.Update(ship);
             return Result.Success(ret.Value);
+        }
+
+        public Result<Ship> ChangeShipLocation(Transport transport)
+        {
+            var shipCopy = transport.Ship;
+
+            var shipResult =  Ship.Create(shipCopy.Id, shipCopy.Name, shipCopy.Price, transport.ShipPortTo);
+            if (shipResult.IsFailure)
+                return Result.Failure<Ship>(shipResult.Error);
+
+            ShipRepository.Update(shipResult.Value);
+
+            return shipResult;
         }
     }
 }

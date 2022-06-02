@@ -3,12 +3,20 @@ using Core.Model.TransportStates;
 using Core.Model.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Configuration;
 
 namespace DataLayer
 {
     public class Database : DbContext
     {
-        public Database() : base() { }
+        private IConfiguration _configuration;
+        private string connectionString = "";
+
+        public Database(IConfiguration configuration) : base() 
+        {
+            _configuration = configuration;
+            connectionString = _configuration.GetSection("ConnectionStrings").GetSection("ShipPort").Value;
+        }
 
         public DbSet<WarehouseClerk> WarehouseClerks { get; set; }
 
@@ -28,7 +36,7 @@ namespace DataLayer
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=ShipPort;Integrated Security=True");
+                optionsBuilder.UseSqlServer(connectionString);
             }
             base.OnConfiguring(optionsBuilder);
         }

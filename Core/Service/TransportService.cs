@@ -46,5 +46,10 @@ namespace Core.Service
             Result<Transport> ret = TransportRepository.Update(transport);
             return Result.Success(ret.Value);
         }
+
+        public IEnumerable<Transport> GetAllActive()
+        {
+            return TransportRepository.GetAllActive();
+        }
     }
 }

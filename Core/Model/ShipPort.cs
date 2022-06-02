@@ -48,18 +48,18 @@ namespace Core.Model
             {
                 return Result.Failure<ShipPort>("Time of creation is not setted !");
             }
-            //if (workers == null)
-            //{
-            //    return Result.Failure<ShipPort>("Workers are not setted !");
-            //}
-            //if (ships == null)
-            //{
-            //    return Result.Failure<ShipPort>("Ships are not setted !");
-            //}
-            //if (warehouses == null)
-            //{
-            //    return Result.Failure<ShipPort>("Warehouses are not setted !");
-            //}
+            if (workers == null)
+            {
+                return Result.Failure<ShipPort>("Workers are not setted !");
+            }
+            if (ships == null)
+            {
+                return Result.Failure<ShipPort>("Ships are not setted !");
+            }
+            if (warehouses == null)
+            {
+                return Result.Failure<ShipPort>("Warehouses are not setted !");
+            }
             Result<ShipPort> result = new ShipPort(id, name, timeOfCreation, workers, ships, warehouses);
             return result;
         }

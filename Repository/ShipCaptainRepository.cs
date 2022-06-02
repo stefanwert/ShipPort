@@ -1,6 +1,7 @@
 ﻿using Core.Model.Workers;
 using Core.Repository;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace DataLayer
 
         public IEnumerable<ShipCaptain> GetAll()
         {
-            return Database.ShipCaptains;
+            return Database.ShipCaptains.Include(x => x.ShipPort);
         }
 
         public Result<ShipCaptain> Update(ShipCaptain shipCaptain)

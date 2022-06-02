@@ -12,5 +12,6 @@ namespace Core.Repository
         Result<Transport> Create(Transport transport);
         Maybe<Transport> DeleteById(Guid id);
         Result<Transport> Update(Transport transport);
+        IEnumerable<Transport> GetAllActive();
     }
 }

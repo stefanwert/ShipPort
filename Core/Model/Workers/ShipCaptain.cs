@@ -7,19 +7,19 @@ namespace Core.Model.Workers
 {
     public class ShipCaptain: Worker
     {
-        public int SailingHoursTotal { get; private set; }
+        public double SailingHoursTotal { get; private set; }
 
-        public int SailingHoursAsCaptain { get; private set; }
+        public double SailingHoursAsCaptain { get; private set; }
 
         private ShipCaptain() : base() { }
-        private ShipCaptain(int sailingHoursTotal, int sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable):
-            base(id, name, surname, age, yearsOfWorking, salary, isAvailable)
+        private ShipCaptain(double sailingHoursTotal, double sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort):
+            base(id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPort)
         {
             SailingHoursTotal = sailingHoursTotal;
             SailingHoursAsCaptain = sailingHoursAsCaptain;
         }
 
-        public static Result<ShipCaptain> Create(int sailingHoursTotal, int sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable)
+        public static Result<ShipCaptain> Create(double sailingHoursTotal, double sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort = null)
         {
             if (sailingHoursTotal < 0)
             {
@@ -57,7 +57,7 @@ namespace Core.Model.Workers
             {
                 return Result.Failure<ShipCaptain>("Sailing hours as captain cant be greater then sailing hours total !");
             }
-            Result<ShipCaptain> shipCaptain = new ShipCaptain(sailingHoursTotal, sailingHoursAsCaptain, id, name, surname, age, yearsOfWorking, salary, isAvailable);
+            Result<ShipCaptain> shipCaptain = new ShipCaptain(sailingHoursTotal, sailingHoursAsCaptain, id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPort);
             return shipCaptain;
         }
     }

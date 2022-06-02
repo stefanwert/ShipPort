@@ -35,13 +35,16 @@ namespace DataLayer
 
         public Maybe<Ship> FindById(Guid id)
         {
-            var ship = Database.Ships.Find(id);
+            var ship = Database.Ships
+                .Include(x=>x.ShipPort)
+                .Where(x=> x.Id == id)
+                .FirstOrDefault();
             return ship == null ? Maybe.None : ship;
         }
 
         public IEnumerable<Ship> GetAll()
         {
-            return Database.Ships.Include(x => x.ShipPort).ToList();
+            return Database.Ships.Include(x => x.ShipPort);
         }
 
         public Result<Ship> Update(Ship ship)

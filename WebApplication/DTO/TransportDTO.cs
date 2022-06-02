@@ -29,5 +29,20 @@ namespace WebShipPort.DTO
         public ShipPortDTO ShipPortTo { get; set; }
 
         public string TransportState { get; set; }
+
+        public TransportDTO() { }
+
+        public TransportDTO(Transport transport)
+        {
+            Id = transport.Id;
+            TimeFrom = transport.TimeFrom;
+            TimeTo = transport.TimeTo;
+            Ship = new ShipDTO(transport.Ship);
+            ShipCaptains = transport.ShipCaptains.Select(x => new ShipCaptainDTO(x)).ToList();
+            CurrentShipCaptain = new ShipCaptainDTO(transport.CurrentShipCaptain);
+            Crew = transport.Crew.Select(x => new CrewDTO(x)).ToList();
+            ShipPortFrom = new ShipPortDTO(transport.ShipPortFrom);
+            ShipPortTo = new ShipPortDTO(transport.ShipPortTo);
+        }
     }
 }

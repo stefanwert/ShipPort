@@ -23,8 +23,9 @@ namespace WebShipPort.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<Crew> ret = CrewService.GetAll().ToList();
-            return Ok(ret);
+            IEnumerable<Crew> crewList = CrewService.GetAll();
+            var retList = crewList.Select(x => new CrewDTO(x));
+            return Ok(retList);
         }
 
         [HttpPost]
@@ -41,7 +42,7 @@ namespace WebShipPort.Controllers
             if (crewCreated.IsFailure)
                 return BadRequest(crewCreated.Error);
 
-            return Ok(crewCreated.Value);
+            return Ok(new CrewDTO(crewCreated.Value));
         }
 
         [HttpPut("update")]
@@ -56,7 +57,7 @@ namespace WebShipPort.Controllers
             if (crewUpdated.IsFailure)
                 return BadRequest(crewUpdated.Error);
 
-            return Ok(crewUpdated.Value);
+            return Ok(new CrewDTO(crewUpdated.Value));
         }
 
         [HttpDelete("{id}")]
@@ -65,7 +66,7 @@ namespace WebShipPort.Controllers
             Maybe<Crew> crew = CrewService.DeleteById(id);
             if (crew.HasNoValue)
                 return BadRequest("There is no warehouse with id:" + id);
-            return Ok(crew);
+            return Ok(new CrewDTO((crew.Value)));
         }
     }
 }

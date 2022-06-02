@@ -1,6 +1,7 @@
 ﻿using Core.Model.Workers;
 using Core.Repository;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace DataLayer
 
         public IEnumerable<Crew> GetAll()
         {
-            return Database.Crew;
+            return Database.Crew.Include(x=>x.ShipPort);
         }
 
         public Result<Crew> Update(Crew crew)

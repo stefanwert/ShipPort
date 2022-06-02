@@ -12,15 +12,15 @@ namespace Core.Model.Workers
         public CrewRole Role { get; private set; }
 
         private Crew() : base() { }
-        private Crew(int sailingHoursTotal, CrewRole role, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable)
-            : base(id, name, surname, age, yearsOfWorking, salary, isAvailable)
+        private Crew(int sailingHoursTotal, CrewRole role, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort)
+            : base(id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPort)
         {
             SailingHoursTotal = sailingHoursTotal;
             Role = role;
         }
 
         //add create
-        public static Result<Crew> Create(int sailingHoursTotal, CrewRole role, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable)
+        public static Result<Crew> Create(int sailingHoursTotal, CrewRole role, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort=null)
         {
             if (sailingHoursTotal < 0)
             {
@@ -54,7 +54,7 @@ namespace Core.Model.Workers
             {
                 return Result.Failure<Crew>("Is available is not setted or it is negative!");
             }
-            Result<Crew> crew = new Crew(sailingHoursTotal, role, id, name, surname, age, yearsOfWorking, salary, isAvailable);
+            Result<Crew> crew = new Crew(sailingHoursTotal, role, id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPort);
             return crew;
         }
 

@@ -26,6 +26,7 @@ namespace DataLayer
         public Maybe<ShipPort> DeleteById(Guid id)
         {
             var shipPort = Database.ShipPorts.First(x => x.Id == id);
+            shipPort.Deleted = true;
             Database.ShipPorts.Update(shipPort);
             Database.SaveChanges();
             return shipPort;
@@ -34,7 +35,7 @@ namespace DataLayer
         public Maybe<ShipPort> FindById(Guid id)
         {
             var shipPort = Database.ShipPorts
-                .Where(x=>x.Id ==id)
+                .Where(x=>x.Id == id  && !x.Deleted)
                 .Include(x=>x.Warehouses)
                 .Include(x=>x.Workers)
                 .Include(x => x.Ships)
@@ -47,7 +48,7 @@ namespace DataLayer
             return Database.ShipPorts
                 .Include(x => x.Warehouses)
                 .Include(x => x.Workers)
-                .Include(x=>x.Ships);
+                .Include(x=>x.Ships).Where(s=>!s.Deleted);
         }
 
         public Result<ShipPort> Update(ShipPort shipPort)
@@ -56,5 +57,6 @@ namespace DataLayer
             Database.SaveChanges();
             return result;
         }
+
     }
 }

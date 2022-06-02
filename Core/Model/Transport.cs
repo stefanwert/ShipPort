@@ -55,10 +55,6 @@ namespace Core.Model
         public static Result<Transport> Create(Guid id, DateTime timeFrom, DateTime timeTo, Ship ship, ICollection<ShipCaptain> shipCaptains,
             ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, string transportStateString, ShipCaptain currentShipCaptain)
         {
-            if (timeFrom == null || timeTo == null)
-            {
-                return Result.Failure<Transport>("Time is not seted !!!");
-            }
             if (timeFrom > timeTo)
             {
                 return Result.Failure<Transport>("Choose start date that is earlier than end date !!!");
@@ -91,12 +87,17 @@ namespace Core.Model
 
         public bool IsTransportReady()
         {
-            if (Ship == null || ShipCaptains == null || ShipPortFrom == null ||
-                ShipPortTo == null || TimeFrom == null || TimeTo == null || Crew == null)
-            {
-                return false;
-            }
-            return true;
+            return !(Ship == null 
+                || ShipCaptains == null 
+                || ShipPortFrom == null 
+                || ShipPortTo == null 
+                || TimeFrom == null || TimeTo == null || Crew == null);
+            //if (Ship == null || ShipCaptains == null || ShipPortFrom == null ||
+            //    ShipPortTo == null || TimeFrom == null || TimeTo == null || Crew == null)
+            //{
+            //    return false;
+            //}
+            //return true;
         }
 
         public bool IsTimeToTransport()
@@ -109,13 +110,17 @@ namespace Core.Model
             var canceledTransport = CanceledTransport.Create();
             var transporting = Transporting.Create();
             var createingTransport = CreatingTransport.Create();
+
             if (canceledTransport.IsFailure || transporting.IsFailure || createingTransport.IsFailure)
                 return null;
 
-            return CanceledTransport.Name.Equals(transportState) ? canceledTransport.Value :
-                Transporting.Name.Equals(transportState) ? transporting.Value :
-                CreatingTransport.Name.Equals(transportState) ? createingTransport.Value :
-                null;
+            return CanceledTransport.Name.Equals(transportState) 
+                ? canceledTransport.Value 
+                :Transporting.Name.Equals(transportState) 
+                    ? transporting.Value 
+                    :CreatingTransport.Name.Equals(transportState) 
+                        ? createingTransport.Value 
+                        :null;
         }
     }
 }

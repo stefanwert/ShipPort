@@ -25,8 +25,9 @@ namespace WebShipPort.Controllers
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
-            List<Transport> ret = _transportService.GetAll().ToList();
-            return Ok(ret);
+            IEnumerable<Transport> transportList = _transportService.GetAll();
+            var retList = transportList.Select(x => new TransportDTO(x));
+            return Ok(transportList);
         }
 
         [HttpPost]
@@ -41,7 +42,7 @@ namespace WebShipPort.Controllers
             var createdTransport = _transportService.Create(transport.Value);
             if (createdTransport.IsFailure)
                 return BadRequest(createdTransport.Error);
-            return Ok(createdTransport.Value);
+            return Ok(new TransportDTO(createdTransport.Value));
         }
 
         [HttpPut("update")]
@@ -55,7 +56,7 @@ namespace WebShipPort.Controllers
             if (updatedTransport.IsFailure)
                 return BadRequest(updatedTransport.Error);
 
-            return Ok(updatedTransport.Value);
+            return Ok(new TransportDTO(updatedTransport.Value));
         }
 
         [HttpDelete("{id}")]
@@ -64,7 +65,7 @@ namespace WebShipPort.Controllers
             Maybe<Transport> transport = _transportService.DeleteById(id);
             if (transport.HasNoValue)
                 return BadRequest("There is no transport with id:" + id);
-            return Ok(transport.Value);
+            return Ok(new TransportDTO(transport.Value));
         }
     }
 }

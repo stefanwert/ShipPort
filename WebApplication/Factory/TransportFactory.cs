@@ -28,29 +28,14 @@ namespace WebShipPort.Factory
         }
         public Result<Transport> Create(TransportDTO transportDTO)
         {
-            //does not need to have ship captain
+            //does not need to have ship captain at begining
             Maybe<ShipCaptain> currentShipCaptain = null;
             if (transportDTO.CurrentShipCaptain != null)
                 currentShipCaptain = _shipCaptainService.FindById(transportDTO.CurrentShipCaptain.Id);
 
-            if (transportDTO.ShipCaptains == null && transportDTO.ShipCaptains.Any())
-                return Result.Failure<Transport>("You didnt set trasnport ship captains !");
+            List<ShipCaptain> shipCaptains = PopulateShipCaptains(transportDTO);
 
-            List<ShipCaptain> shipCaptains = new List<ShipCaptain>();
-            foreach (var shipCaptain in transportDTO.ShipCaptains)
-            {
-                var shipC = _shipCaptainService.FindById(shipCaptain.Id);
-                if (shipC.HasValue)
-                    shipCaptains.Add(shipC.Value);
-            }
-
-            List<Crew> crew = new List<Crew>();
-            foreach (var crewMember in transportDTO.Crew)
-            {
-                var crewM = _crewService.FindById(crewMember.Id);
-                if (crewM.HasValue)
-                    crew.Add(crewM.Value);
-            }
+            List<Crew> crew = PopulateCrew(transportDTO);
 
             var ship = _shipService.FindById(transportDTO.Ship.Id);
             if (ship.HasNoValue)
@@ -74,13 +59,31 @@ namespace WebShipPort.Factory
             return transport;
         }
 
-        //create dto from object
-        //public Result<TransportDTO> Create(Transport transport)
-        //{
-        //    new TransportDTO()
-        //    {
-                
-        //    }
-        //}
+        private List<Crew> PopulateCrew(TransportDTO transportDTO)
+        {
+            List<Crew> crew = new List<Crew>();
+            foreach (var crewMember in transportDTO.Crew ?? Enumerable.Empty<CrewDTO>())
+            {
+                var crewM = _crewService.FindById(crewMember.Id);
+                if (crewM.HasValue)
+                    crew.Add(crewM.Value);
+            }
+
+            return crew;
+        }
+
+        private List<ShipCaptain> PopulateShipCaptains(TransportDTO transportDTO)
+        {
+            List<ShipCaptain> shipCaptains = new List<ShipCaptain>();
+            foreach (var shipCaptain in transportDTO.ShipCaptains ?? Enumerable.Empty<ShipCaptainDTO>())
+            {
+                var shipC = _shipCaptainService.FindById(shipCaptain.Id);
+                if (shipC.HasValue)
+                    shipCaptains.Add(shipC.Value);
+            }
+
+            return shipCaptains;
+        }
+
     }
 }
