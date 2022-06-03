@@ -21,22 +21,22 @@ namespace Core.Model.TransportStates
 
         protected override Result<Ship> AddShip(Transport transport, Ship ship)
         {
-            throw new NotImplementedException();
+            return Result.Failure<Ship>("You can't change ship while Finished !");
         }
 
         protected override Result<ICollection<ShipCaptain>> AddShipCaptain(Transport transport, ICollection<ShipCaptain> shipCaptain)
         {
-            throw new NotImplementedException();
+            return Result.Failure<ICollection<ShipCaptain>>("You can't change add ship captain while Finished !");
         }
 
         protected override Result<ICollection<Crew>> AddShipCrew(Transport transport, ICollection<Crew> crew)
         {
-            throw new NotImplementedException();
+            return Result.Failure<ICollection<Crew>>("You can't change crew while Finished !");
         }
 
         protected override Result<ShipCaptain> SetCurrentShipCaptain(Transport transport, ShipCaptain shipCaptain)
         {
-            throw new NotImplementedException();
+            return Result.Failure<ShipCaptain>("You can't change curret ship captain while Finished !");
         }
     }
 }
