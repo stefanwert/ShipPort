@@ -16,6 +16,7 @@ namespace WebShipPort.DTO
 
         public int CargoCapacity { get; set; }
 
+        public Guid ShipPortId { get; set; }
         public WarehouseDTO() { }
 
         public WarehouseDTO(Warehouse warehouse)
@@ -24,6 +25,7 @@ namespace WebShipPort.DTO
             Name = warehouse.Name;
             StoreFlammableCargo = warehouse.StoreFlammableCargo;
             CargoCapacity = warehouse.CargoCapacity;
+            ShipPortId = warehouse.ShipPortId;
         }
 
     }

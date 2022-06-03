@@ -32,7 +32,7 @@ namespace WebShipPort.Controllers
         public IActionResult Create(WarehouseDTO warehouseDTO)
         {
             var id = Guid.NewGuid();
-            Result<Warehouse> result = Warehouse.Create(id, warehouseDTO.Name, warehouseDTO.StoreFlammableCargo, warehouseDTO.CargoCapacity);
+            Result<Warehouse> result = Warehouse.Create(id, warehouseDTO.Name, warehouseDTO.StoreFlammableCargo, warehouseDTO.CargoCapacity, warehouseDTO.ShipPortId);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -47,7 +47,7 @@ namespace WebShipPort.Controllers
         [HttpPut("update")]
         public IActionResult Update(WarehouseDTO warehouseDTO)
         {
-            Result<Warehouse> warehouse = Warehouse.Create(warehouseDTO.Id, warehouseDTO.Name, warehouseDTO.StoreFlammableCargo, warehouseDTO.CargoCapacity);
+            Result<Warehouse> warehouse = Warehouse.Create(warehouseDTO.Id, warehouseDTO.Name, warehouseDTO.StoreFlammableCargo, warehouseDTO.CargoCapacity, warehouseDTO.ShipPortId);
             if (warehouse.IsFailure)
                 return BadRequest(warehouse.Error);
 
