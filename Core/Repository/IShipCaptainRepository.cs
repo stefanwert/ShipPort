@@ -13,5 +13,6 @@ namespace Core.Repository
         Result<ShipCaptain> Create(ShipCaptain shipCaptain);
         Maybe<ShipCaptain> DeleteById(Guid id);
         Result<ShipCaptain> Update(ShipCaptain shipCaptain);
+        ICollection<ShipCaptain> FindByShipPortId(Guid id);
     }
 }

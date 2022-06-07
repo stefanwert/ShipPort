@@ -69,5 +69,16 @@ namespace WebShipPort.Controllers
                 return BadRequest("There is no ship captain with id:" + id);
             return Ok(new ShipCaptainDTO(shipCaptain.Value));
         }
+
+        [HttpGet("getAllByShipPortId/{shipCaptainId}")]
+        public IActionResult getAllByShipPortId(Guid shipCaptainId)
+        {
+            if (shipCaptainId == Guid.Empty)
+                return BadRequest("Ship port id is not setted");
+
+            ICollection<ShipCaptain> ret = ShipCaptainService.FindByShipPortId(shipCaptainId);
+            var retList = ret.Select(x => new ShipCaptainDTO(x));
+            return Ok(retList);
+        }
     }
 }

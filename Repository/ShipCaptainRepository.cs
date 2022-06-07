@@ -39,6 +39,11 @@ namespace DataLayer
             return shipCaptain == null ? Maybe.None : shipCaptain;
         }
 
+        public ICollection<ShipCaptain> FindByShipPortId(Guid id)
+        {
+            return Database.ShipCaptains.Where(x => x.ShipPort.Id == id).ToList();
+        }
+
         public IEnumerable<ShipCaptain> GetAll()
         {
             return Database.ShipCaptains.Include(x => x.ShipPort);

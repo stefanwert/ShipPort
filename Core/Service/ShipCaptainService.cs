@@ -64,5 +64,10 @@ namespace Core.Service
                 ShipCaptainRepository.Update(shipCaptain);
             }
         }
+
+        public ICollection<ShipCaptain> FindByShipPortId(Guid id)
+        {
+            return ShipCaptainRepository.FindByShipPortId(id);
+        }
     }
 }
