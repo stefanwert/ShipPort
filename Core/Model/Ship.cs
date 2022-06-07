@@ -14,18 +14,18 @@ namespace Core.Model
         public float Price { get; private set; }
 
         [Required]
-        public ShipPort ShipPort { get; private set; }
+        public Guid ShipPortId { get; private set; }
 
         private Ship() { }
-        private Ship(Guid id, string name, float price, ShipPort shipPort)
+        private Ship(Guid id, string name, float price, Guid shipPortId)
         {
             Id = id;
             Name = name;
             Price = price;
-            ShipPort = shipPort;
+            ShipPortId = shipPortId;
         }
 
-        public static Result<Ship> Create(Guid id, string name, float price, ShipPort shipPort)
+        public static Result<Ship> Create(Guid id, string name, float price, Guid shipPortId)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -36,7 +36,7 @@ namespace Core.Model
                 return Result.Failure<Ship>("Price is not setted or it is negative !");
             }
             
-            Result<Ship> result = new Ship(id, name, price, shipPort);
+            Result<Ship> result = new Ship(id, name, price, shipPortId);
             return result;
         }
     }

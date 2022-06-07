@@ -14,7 +14,7 @@ namespace WebShipPort.DTO
 
         public float Price { get; set; }
 
-        public ShipPortDTO ShipPort { get; set; }
+        public Guid ShipPortId { get; set; }
 
         public ShipDTO() { }
 
@@ -23,6 +23,7 @@ namespace WebShipPort.DTO
             Id = ship.Id;
             Name = ship.Name;
             Price = ship.Price;
+            ShipPortId = ship.ShipPortId;
         }
     }
 }

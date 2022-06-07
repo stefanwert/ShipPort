@@ -50,13 +50,18 @@ namespace Core.Service
         {
             var shipCopy = transport.Ship;
 
-            var shipResult =  Ship.Create(shipCopy.Id, shipCopy.Name, shipCopy.Price, transport.ShipPortTo);
+            var shipResult =  Ship.Create(shipCopy.Id, shipCopy.Name, shipCopy.Price, transport.ShipPortTo.Id);
             if (shipResult.IsFailure)
                 return Result.Failure<Ship>(shipResult.Error);
 
             ShipRepository.Update(shipResult.Value);
 
             return shipResult;
+        }
+
+        public ICollection<Ship> FindByShipPortId(Guid id)
+        {
+            return ShipRepository.FindByShipPortId(id);
         }
     }
 }

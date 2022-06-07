@@ -36,7 +36,6 @@ namespace DataLayer
         public Maybe<Ship> FindById(Guid id)
         {
             var ship = Database.Ships
-                .Include(x=>x.ShipPort)
                 .Where(x=> x.Id == id)
                 .FirstOrDefault();
             return ship == null ? Maybe.None : ship;
@@ -44,7 +43,7 @@ namespace DataLayer
 
         public IEnumerable<Ship> GetAll()
         {
-            return Database.Ships.Include(x => x.ShipPort);
+            return Database.Ships;
         }
 
         public Result<Ship> Update(Ship ship)
@@ -52,6 +51,11 @@ namespace DataLayer
             Result<Ship> result = Database.Ships.Update(ship).Entity;
             Database.SaveChanges();
             return result;
+        }
+
+        public ICollection<Ship> FindByShipPortId(Guid id)
+        {
+            return Database.Ships.Where(x => x.ShipPortId == id).ToList();
         }
     }
 }

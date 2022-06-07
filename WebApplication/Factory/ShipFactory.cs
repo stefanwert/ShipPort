@@ -15,11 +15,11 @@ namespace WebShipPort.Factory
         }
         public Result<Ship> Create(ShipDTO shipDTO)
         {
-            var shipPort = ShipPortService.FindById(shipDTO.ShipPort.Id);
+            var shipPort = ShipPortService.FindById(shipDTO.ShipPortId);
             if (shipPort.HasNoValue)
-                return Result.Failure<Ship>($"Ship port with id:{shipDTO.ShipPort.Id} dont exist !");
+                return Result.Failure<Ship>($"Ship port with id:{shipDTO.ShipPortId} dont exist !");
 
-            var shipCreated = Ship.Create(shipDTO.Id, shipDTO.Name, shipDTO.Price, shipPort.Value);
+            var shipCreated = Ship.Create(shipDTO.Id, shipDTO.Name, shipDTO.Price, shipPort.Value.Id);
             if (shipCreated.IsFailure)
                 return Result.Failure<Ship>(shipCreated.Error);
 

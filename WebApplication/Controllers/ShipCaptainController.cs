@@ -66,7 +66,7 @@ namespace WebShipPort.Controllers
         {
             Maybe<ShipCaptain> shipCaptain = ShipCaptainService.DeleteById(id);
             if (shipCaptain.HasNoValue)
-                return BadRequest("There is no warehouse with id:" + id);
+                return BadRequest("There is no ship captain with id:" + id);
             return Ok(new ShipCaptainDTO(shipCaptain.Value));
         }
     }
