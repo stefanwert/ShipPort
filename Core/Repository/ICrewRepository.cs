@@ -13,5 +13,6 @@ namespace Core.Repository
         Result<Crew> Create(Crew crew);
         Maybe<Crew> DeleteById(Guid id);
         Result<Crew> Update(Crew crew);
+        ICollection<Crew> FindByShipPortId(Guid id);
     }
 }

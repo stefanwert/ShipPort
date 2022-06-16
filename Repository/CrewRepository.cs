@@ -48,5 +48,10 @@ namespace DataLayer
             Database.SaveChanges();
             return result;
         }
+
+        public ICollection<Crew> FindByShipPortId(Guid id)
+        {
+            return Database.Crew.Where(x => x.ShipPortId == id).ToList();
+        }
     }
 }

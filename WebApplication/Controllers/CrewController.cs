@@ -68,5 +68,16 @@ namespace WebShipPort.Controllers
                 return BadRequest("There is no warehouse with id:" + id);
             return Ok(new CrewDTO((crew.Value)));
         }
+
+        [HttpGet("getAllByShipPortId/{shipCaptainId}")]
+        public IActionResult getAllByShipPortId(Guid shipCaptainId)
+        {
+            if (shipCaptainId == Guid.Empty)
+                return BadRequest("Ship port id is not setted");
+
+            ICollection<Crew> ret = CrewService.FindByShipPortId(shipCaptainId);
+            var retList = ret.Select(x => new CrewDTO(x));
+            return Ok(retList);
+        }
     }
 }

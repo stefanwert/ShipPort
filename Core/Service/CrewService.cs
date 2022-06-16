@@ -46,5 +46,10 @@ namespace Core.Service
             Result<Crew> ret = CrewRepository.Update(crewMember);
             return Result.Success(ret.Value);
         }
+
+        public ICollection<Crew> FindByShipPortId(Guid id)
+        {
+            return CrewRepository.FindByShipPortId(id);
+        }
     }
 }

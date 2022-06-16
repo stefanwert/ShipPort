@@ -41,8 +41,7 @@ namespace DataLayer
 
         public ICollection<ShipCaptain> FindByShipPortId(Guid id)
         {
-            var temp = Database.ShipCaptains;
-            return temp.Where(x => x.ShipPortId == id).ToList();
+            return Database.ShipCaptains.Where(x => x.ShipPortId == id).ToList();
         }
 
         public IEnumerable<ShipCaptain> GetAll()
