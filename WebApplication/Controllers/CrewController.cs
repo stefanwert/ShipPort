@@ -69,14 +69,25 @@ namespace WebShipPort.Controllers
             return Ok(new CrewDTO((crew.Value)));
         }
 
-        [HttpGet("getAllByShipPortId/{shipCaptainId}")]
-        public IActionResult getAllByShipPortId(Guid shipCaptainId)
+        [HttpGet("getAllByShipPortId/{shipPortId}")]
+        public IActionResult getAllByShipPortId(Guid shipPortId)
         {
-            if (shipCaptainId == Guid.Empty)
+            if (shipPortId == Guid.Empty)
                 return BadRequest("Ship port id is not setted");
 
-            ICollection<Crew> ret = CrewService.FindByShipPortId(shipCaptainId);
+            ICollection<Crew> ret = CrewService.FindByShipPortId(shipPortId);
             var retList = ret.Select(x => new CrewDTO(x));
+            return Ok(retList);
+        }
+
+        [HttpGet("getAllRoles")]
+        public IActionResult getAllRoles()
+        {
+            List<string> retList = new List<string>();
+            foreach (int value in Enum.GetValues(typeof(CrewRole)))
+            {
+                retList.Add(((CrewRole)value).ToString());
+            }
             return Ok(retList);
         }
     }
