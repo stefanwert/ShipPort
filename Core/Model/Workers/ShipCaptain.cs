@@ -12,14 +12,14 @@ namespace Core.Model.Workers
         public double SailingHoursAsCaptain { get; private set; }
 
         private ShipCaptain() : base() { }
-        private ShipCaptain(double sailingHoursTotal, double sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort):
+        private ShipCaptain(double sailingHoursTotal, double sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, Guid shipPort):
             base(id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPort)
         {
             SailingHoursTotal = sailingHoursTotal;
             SailingHoursAsCaptain = sailingHoursAsCaptain;
         }
 
-        public static Result<ShipCaptain> Create(double sailingHoursTotal, double sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort = null)
+        public static Result<ShipCaptain> Create(double sailingHoursTotal, double sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, Guid shipPort)
         {
             if (sailingHoursTotal < 0)
             {

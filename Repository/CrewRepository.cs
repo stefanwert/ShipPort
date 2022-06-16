@@ -39,7 +39,7 @@ namespace DataLayer
 
         public IEnumerable<Crew> GetAll()
         {
-            return Database.Crew.Include(x=>x.ShipPort);
+            return Database.Crew;
         }
 
         public Result<Crew> Update(Crew crew)

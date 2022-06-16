@@ -20,11 +20,11 @@ namespace Core.Model.Workers
 
         public bool IsAvailable { get; private set; }
 
-        public ShipPort ShipPort { get; private set; }
+        public Guid ShipPortId { get; private set; }
 
         protected Worker() { }
 
-        protected Worker(Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort)
+        protected Worker(Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, Guid shipPort)
         {
             Id = id;
             Name = name;
@@ -33,7 +33,7 @@ namespace Core.Model.Workers
             YearsOfWorking = yearsOfWorking;
             Salary = salary;
             IsAvailable = isAvailable;
-            ShipPort = shipPort;
+            ShipPortId = shipPort;
         }
 
     }

@@ -34,7 +34,7 @@ namespace WebShipPort.Controllers
         {
             var id = Guid.NewGuid();
             Result<ShipCaptain> result = ShipCaptain.Create(shipCaptainDTO.SailingHoursTotal, shipCaptainDTO.SailingHoursAsCaptain, id, shipCaptainDTO.Name,
-                shipCaptainDTO.Surname, shipCaptainDTO.Age, shipCaptainDTO.YearsOfWorking, shipCaptainDTO.Salary, shipCaptainDTO.IsAvailable);
+                shipCaptainDTO.Surname, shipCaptainDTO.Age, shipCaptainDTO.YearsOfWorking, shipCaptainDTO.Salary, shipCaptainDTO.IsAvailable, shipCaptainDTO.ShipPortId);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -50,7 +50,7 @@ namespace WebShipPort.Controllers
         public IActionResult Update(ShipCaptainDTO shipCaptainDTO)
         {
             Result<ShipCaptain> shipCaptain = ShipCaptain.Create(shipCaptainDTO.SailingHoursTotal, shipCaptainDTO.SailingHoursAsCaptain, shipCaptainDTO.Id, shipCaptainDTO.Name,
-                shipCaptainDTO.Surname, shipCaptainDTO.Age, shipCaptainDTO.YearsOfWorking, shipCaptainDTO.Salary, shipCaptainDTO.IsAvailable);
+                shipCaptainDTO.Surname, shipCaptainDTO.Age, shipCaptainDTO.YearsOfWorking, shipCaptainDTO.Salary, shipCaptainDTO.IsAvailable, shipCaptainDTO.ShipPortId);
             if (shipCaptain.IsFailure)
                 return BadRequest(shipCaptain.Error);
 

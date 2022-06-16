@@ -10,13 +10,13 @@ namespace Core.Model.Workers
         public ClerkRole ClerkRole { get; private set; }
 
         private WarehouseClerk() { }
-        private WarehouseClerk(ClerkRole clerkRole, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort)
-            : base(id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPort)
+        private WarehouseClerk(ClerkRole clerkRole, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, Guid shipPortId)
+            : base(id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPortId)
         {
             ClerkRole = clerkRole;
         }
 
-        public static Result<WarehouseClerk> Create(ClerkRole clerkRole, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, ShipPort shipPort=null)
+        public static Result<WarehouseClerk> Create(ClerkRole clerkRole, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, Guid shipPortId)
         {
             if (clerkRole == null)
             {
@@ -46,7 +46,7 @@ namespace Core.Model.Workers
             {
                 Result.Failure<WarehouseClerk>("Is available is not setted or it is negative!");
             }
-            Result<WarehouseClerk> result = new WarehouseClerk(clerkRole, id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPort);
+            Result<WarehouseClerk> result = new WarehouseClerk(clerkRole, id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPortId);
             return result;
         }
     }

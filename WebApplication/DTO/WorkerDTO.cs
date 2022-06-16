@@ -18,6 +18,8 @@ namespace WebShipPort.DTO
         public long Salary { get; set; }
 
         public bool IsAvailable { get; set; }
+
+        public Guid ShipPortId { get; set; }
         public WorkerDTO() { }
         public WorkerDTO(Worker worker)
         {
@@ -27,7 +29,8 @@ namespace WebShipPort.DTO
             Age = worker.Age;
             YearsOfWorking = worker.YearsOfWorking;
             Salary = worker.Salary;
-            IsAvailable = IsAvailable;
+            IsAvailable = worker.IsAvailable;
+            ShipPortId = worker.ShipPortId;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace WebShipPort.Controllers
         {
             var id = Guid.NewGuid();
             Result<Crew> result = Crew.Create(crewDTO.SailingHoursTotal, crewDTO.Role, id, crewDTO.Name,
-                crewDTO.Surname, crewDTO.Age, crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable);
+                crewDTO.Surname, crewDTO.Age, crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable, crewDTO.ShipPortId);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -49,7 +49,7 @@ namespace WebShipPort.Controllers
         public IActionResult Update(CrewDTO crewDTO)
         {
             Result<Crew> crew = Crew.Create(crewDTO.SailingHoursTotal, crewDTO.Role, crewDTO.Id, crewDTO.Name,
-                crewDTO.Surname, crewDTO.Age, crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable);
+                crewDTO.Surname, crewDTO.Age, crewDTO.YearsOfWorking, crewDTO.Salary, crewDTO.IsAvailable, crewDTO.ShipPortId);
             if (crew.IsFailure)
                 return BadRequest(crew.Error);
 

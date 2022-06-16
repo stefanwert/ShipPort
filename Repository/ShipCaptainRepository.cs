@@ -41,12 +41,13 @@ namespace DataLayer
 
         public ICollection<ShipCaptain> FindByShipPortId(Guid id)
         {
-            return Database.ShipCaptains.Where(x => x.ShipPort.Id == id).ToList();
+            var temp = Database.ShipCaptains;
+            return temp.Where(x => x.ShipPortId == id).ToList();
         }
 
         public IEnumerable<ShipCaptain> GetAll()
         {
-            return Database.ShipCaptains.Include(x => x.ShipPort);
+            return Database.ShipCaptains.Include(x => x.ShipPortId);
         }
 
         public Result<ShipCaptain> Update(ShipCaptain shipCaptain)

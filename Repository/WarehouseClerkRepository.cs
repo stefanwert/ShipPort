@@ -42,7 +42,7 @@ namespace DataLayer
 
         public IEnumerable<WarehouseClerk> GetAll()
         {
-            return Database.WarehouseClerks.Include(x => x.ShipPort);
+            return Database.WarehouseClerks;
         }
 
         public Result<WarehouseClerk> Update(WarehouseClerk warehouseClerk)

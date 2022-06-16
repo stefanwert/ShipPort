@@ -34,7 +34,7 @@ namespace WebShipPort.Controllers
             var id = Guid.NewGuid();
             Result<WarehouseClerk> result = WarehouseClerk.Create(warehouseClerkDTO.ClerkRole,
                 id, warehouseClerkDTO.Name, warehouseClerkDTO.Surname, warehouseClerkDTO.Age,
-                warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable);
+                warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable, warehouseClerkDTO.ShipPortId);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -51,7 +51,7 @@ namespace WebShipPort.Controllers
         {
             Result<WarehouseClerk> warehouse = WarehouseClerk.Create(warehouseClerkDTO.ClerkRole,
                 warehouseClerkDTO.Id, warehouseClerkDTO.Name, warehouseClerkDTO.Surname, warehouseClerkDTO.Age,
-                warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable);
+                warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable, warehouseClerkDTO.ShipPortId);
             if (warehouse.IsFailure)
                 return BadRequest(warehouse.Error);
 

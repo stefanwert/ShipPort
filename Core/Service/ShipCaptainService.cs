@@ -59,7 +59,7 @@ namespace Core.Service
                 var transportTimeInHours = transportTime.TotalHours;
                 var SailingHoursTotalNew = shipCaptain.SailingHoursTotal + transportTimeInHours;
                 var sailingHoursAsCaptain = shipCaptain.SailingHoursAsCaptain + transportTimeInHours / numberOfShipCaptains;
-                Result<ShipCaptain> result = ShipCaptain.Create(SailingHoursTotalNew, sailingHoursAsCaptain, shipCaptain.Id, shipCaptain.Name, shipCaptain.Surname, shipCaptain.Age, shipCaptain.YearsOfWorking, shipCaptain.Salary, true, shipPort);
+                Result<ShipCaptain> result = ShipCaptain.Create(SailingHoursTotalNew, sailingHoursAsCaptain, shipCaptain.Id, shipCaptain.Name, shipCaptain.Surname, shipCaptain.Age, shipCaptain.YearsOfWorking, shipCaptain.Salary, true, shipPort.Id);
 
                 ShipCaptainRepository.Update(shipCaptain);
             }
