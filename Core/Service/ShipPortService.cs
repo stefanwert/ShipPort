@@ -47,5 +47,10 @@ namespace Core.Service
             Result<ShipPort> ret = ShipPortRepository.Update(shipPort);
             return Result.Success(ret.Value);
         }
+
+        public bool DoesShipPortContainWarehouse(Guid warehouseId, Guid shipportId)
+        {
+            return ShipPortRepository.DoesShipPortContainWarehouse(warehouseId, shipportId);
+        }
     }
 }

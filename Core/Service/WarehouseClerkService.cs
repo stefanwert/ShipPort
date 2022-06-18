@@ -45,5 +45,10 @@ namespace Core.Service
             Result<WarehouseClerk> ret = WarehouseClerkRepository.Update(warehouse);
             return Result.Success(ret.Value);
         }
+
+        public ICollection<WarehouseClerk> FindByShipPortId(Guid id)
+        {
+            return WarehouseClerkRepository.FindByShipPortId(id);
+        }
     }
 }

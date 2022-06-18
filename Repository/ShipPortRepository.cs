@@ -58,5 +58,13 @@ namespace DataLayer
             return result;
         }
 
+        public bool DoesShipPortContainWarehouse(Guid warehouseId, Guid shipportId)
+        {
+            var shipPort = Database.ShipPorts.Include(x => x.Warehouses).Where(x => x.Id == shipportId).First();
+            if (shipPort == null)
+                return false;
+            return shipPort.Warehouses.Where(x => x.Id == warehouseId).Any();
+                
+        }
     }
 }

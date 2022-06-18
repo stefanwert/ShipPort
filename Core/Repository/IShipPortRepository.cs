@@ -15,5 +15,7 @@ namespace Core.Repository
         Result<ShipPort> Create(ShipPort shipPort);
         Maybe<ShipPort> DeleteById(Guid id);
         Result<ShipPort> Update(ShipPort shipPort);
+
+        bool DoesShipPortContainWarehouse(Guid warehouseId, Guid shipportId);
     }
 }

@@ -14,10 +14,12 @@ namespace WebShipPort.Controllers
     public class WarehouseClerkController : Controller
     {
         private readonly WarehouseClerkService WarehouseClerkService;
+        private readonly ShipPortService ShipPortService;
 
-        public WarehouseClerkController(WarehouseClerkService warehouseClerkService)
+        public WarehouseClerkController(WarehouseClerkService warehouseClerkService, ShipPortService shipPortService)
         {
             WarehouseClerkService = warehouseClerkService;
+            ShipPortService = shipPortService;
         }
 
         [HttpGet("getAll")]
@@ -32,9 +34,12 @@ namespace WebShipPort.Controllers
         public IActionResult Create(WarehouseClerkDTO warehouseClerkDTO)
         {
             var id = Guid.NewGuid();
+            if (!ShipPortService.DoesShipPortContainWarehouse(warehouseClerkDTO.WarehouseId, warehouseClerkDTO.ShipPortId))
+                return BadRequest("Ship port does not contain warehouse you entered !");
+            
             Result<WarehouseClerk> result = WarehouseClerk.Create(warehouseClerkDTO.ClerkRole,
                 id, warehouseClerkDTO.Name, warehouseClerkDTO.Surname, warehouseClerkDTO.Age,
-                warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable, warehouseClerkDTO.ShipPortId);
+                warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable, warehouseClerkDTO.ShipPortId, warehouseClerkDTO.WarehouseId);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -49,9 +54,12 @@ namespace WebShipPort.Controllers
         [HttpPut("update")]
         public IActionResult Update(WarehouseClerkDTO warehouseClerkDTO)
         {
+            if (!ShipPortService.DoesShipPortContainWarehouse(warehouseClerkDTO.WarehouseId, warehouseClerkDTO.ShipPortId))
+                return BadRequest("Ship port does not contain warehouse you entered !");
+            
             Result<WarehouseClerk> warehouse = WarehouseClerk.Create(warehouseClerkDTO.ClerkRole,
                 warehouseClerkDTO.Id, warehouseClerkDTO.Name, warehouseClerkDTO.Surname, warehouseClerkDTO.Age,
-                warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable, warehouseClerkDTO.ShipPortId);
+                warehouseClerkDTO.YearsOfWorking, warehouseClerkDTO.Salary, warehouseClerkDTO.IsAvailable, warehouseClerkDTO.ShipPortId, warehouseClerkDTO.WarehouseId);
             if (warehouse.IsFailure)
                 return BadRequest(warehouse.Error);
 
@@ -69,6 +77,28 @@ namespace WebShipPort.Controllers
             if (warehouse.HasNoValue)
                 return BadRequest("There is no warehouse with id:" + id);
             return Ok(new WarehouseClerkDTO(warehouse.Value));
+        }
+
+        [HttpGet("getAllByShipPortId/{shipPortId}")]
+        public IActionResult getAllByShipPortId(Guid shipPortId)
+        {
+            if (shipPortId == Guid.Empty)
+                return BadRequest("Ship port id is not setted");
+
+            ICollection<WarehouseClerk> ret = WarehouseClerkService.FindByShipPortId(shipPortId);
+            var retList = ret.Select(x => new WarehouseClerkDTO(x));
+            return Ok(retList);
+        }
+
+        [HttpGet("getAllRoles")]
+        public IActionResult getAllRoles()
+        {
+            List<string> retList = new List<string>();
+            foreach (int value in Enum.GetValues(typeof(ClerkRole)))
+            {
+                retList.Add(((ClerkRole)value).ToString());
+            }
+            return Ok(retList);
         }
     }
 }
