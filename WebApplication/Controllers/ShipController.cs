@@ -71,13 +71,13 @@ namespace WebShipPort.Controllers
             return Ok(new ShipDTO(shipDeleted.Value));
         }
 
-        [HttpGet("getAllByShipPortId/{shipId}")]
-        public IActionResult getAllByShipPortId(Guid shipId)
+        [HttpGet("getAllByShipPortId/{id}")]
+        public IActionResult getAllByShipPortId(Guid id)
         {
-            if (shipId == Guid.Empty)
+            if (id == Guid.Empty)
                 return BadRequest("Ship port id is not setted");
 
-            ICollection<Ship> ret = ShipService.FindByShipPortId(shipId);
+            ICollection<Ship> ret = ShipService.FindByShipPortId(id);
             var retList = ret.Select(x => new ShipDTO(x));
             return Ok(retList);
         }

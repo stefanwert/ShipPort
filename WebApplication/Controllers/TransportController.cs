@@ -1,4 +1,5 @@
 ﻿using Core.Model;
+using Core.Model.TransportStates;
 using Core.Service;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,7 @@ namespace WebShipPort.Controllers
         {
             var id = Guid.NewGuid();
             transportDTO.Id = id;
+            transportDTO.TransportState = CreatingTransport.Name;
             var transport = _transportFactory.Create(transportDTO);
             if (transport.IsFailure)
                 return BadRequest(transport.Error);
@@ -59,6 +61,20 @@ namespace WebShipPort.Controllers
             return Ok(new TransportDTO(updatedTransport.Value));
         }
 
+        [HttpPut("cancel/{id}")]
+        public IActionResult CancelTransport(Guid id)
+        {
+            var transport = _transportService.FindById(id);
+            if (transport.HasNoValue)
+                return BadRequest("There is no transport with that id");
+
+            if (!transport.Value.CancelTransport())
+                return BadRequest("You can only cancel transport that have status CREATING");
+            var retTransport = _transportService.Update(transport.Value);
+
+            return Ok(new TransportDTO(retTransport.Value));
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteById(Guid id)
         {
@@ -67,5 +83,16 @@ namespace WebShipPort.Controllers
                 return BadRequest("There is no transport with id:" + id);
             return Ok(new TransportDTO(transport.Value));
         }
-    }
+
+        [HttpGet("getAllByShipPortId/{id}")]
+        public IActionResult FindByShipPortId(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest("Ship port id is not setted");
+
+            ICollection<Transport> ret = _transportService.FindByShipPortId(id);
+            var retList = ret.Select(x => new TransportDTO(x));
+            return Ok(retList);
+        }
+    } 
 }

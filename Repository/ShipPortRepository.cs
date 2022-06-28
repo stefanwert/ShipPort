@@ -36,9 +36,17 @@ namespace DataLayer
         {
             var shipPort = Database.ShipPorts
                 .Where(x=>x.Id == id  && !x.Deleted)
-                .Include(x=>x.Warehouses)
-                .Include(x=>x.Workers)
+                .Include(x => x.Warehouses)
+                .Include(x => x.Workers)
                 .Include(x => x.Ships)
+                .FirstOrDefault();
+            return shipPort == null ? Maybe.None : shipPort;
+        }
+
+        public Maybe<ShipPort> FindByIdWithOutRelationships(Guid id)
+        {
+            var shipPort = Database.ShipPorts
+                .Where(x => x.Id == id && !x.Deleted)
                 .FirstOrDefault();
             return shipPort == null ? Maybe.None : shipPort;
         }
@@ -49,6 +57,11 @@ namespace DataLayer
                 .Include(x => x.Warehouses)
                 .Include(x => x.Workers)
                 .Include(x=>x.Ships).Where(s=>!s.Deleted);
+        }
+
+        public IEnumerable<ShipPort> GetAllWithOutRelationships()
+        {
+            return Database.ShipPorts;
         }
 
         public Result<ShipPort> Update(ShipPort shipPort)

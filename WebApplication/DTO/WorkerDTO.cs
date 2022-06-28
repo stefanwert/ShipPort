@@ -3,7 +3,7 @@ using System;
 
 namespace WebShipPort.DTO
 {
-    public abstract class WorkerDTO
+    public class WorkerDTO
     {
         public Guid Id { get; set; }
 

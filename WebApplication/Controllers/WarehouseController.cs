@@ -6,6 +6,7 @@ using Core.Service;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using WebShipPort.DTO;
+using WebShipPort.Factory;
 
 namespace WebShipPort.Controllers
 {
@@ -15,9 +16,12 @@ namespace WebShipPort.Controllers
     {
         private readonly WarehouseService WarehouseService;
 
-        public WarehouseController(WarehouseService warehouseService)
+        private readonly WarehouseFactory WarehouseFactory;
+
+        public WarehouseController(WarehouseService warehouseService, WarehouseFactory warehouseFactory)
         {
             WarehouseService = warehouseService;
+            WarehouseFactory = warehouseFactory;
         }
 
         [HttpGet("getAll")]
@@ -32,7 +36,7 @@ namespace WebShipPort.Controllers
         public IActionResult Create(WarehouseDTO warehouseDTO)
         {
             var id = Guid.NewGuid();
-            Result<Warehouse> result = Warehouse.Create(id, warehouseDTO.Name, warehouseDTO.StoreFlammableCargo, warehouseDTO.CargoCapacity, warehouseDTO.ShipPortId);
+            Result<Warehouse> result= WarehouseFactory.Create(warehouseDTO);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -47,7 +51,7 @@ namespace WebShipPort.Controllers
         [HttpPut("update")]
         public IActionResult Update(WarehouseDTO warehouseDTO)
         {
-            Result<Warehouse> warehouse = Warehouse.Create(warehouseDTO.Id, warehouseDTO.Name, warehouseDTO.StoreFlammableCargo, warehouseDTO.CargoCapacity, warehouseDTO.ShipPortId);
+            Result<Warehouse> warehouse = WarehouseFactory.Create(warehouseDTO);
             if (warehouse.IsFailure)
                 return BadRequest(warehouse.Error);
 

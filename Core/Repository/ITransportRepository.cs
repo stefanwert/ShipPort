@@ -13,5 +13,6 @@ namespace Core.Repository
         Maybe<Transport> DeleteById(Guid id);
         Result<Transport> Update(Transport transport);
         IEnumerable<Transport> GetAllActive();
+        ICollection<Transport> FindByShipPortId(Guid id);
     }
 }

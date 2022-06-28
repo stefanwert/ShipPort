@@ -51,5 +51,10 @@ namespace Core.Service
         {
             return TransportRepository.GetAllActive();
         }
+        public ICollection<Transport> FindByShipPortId(Guid id)
+        {
+            return TransportRepository.FindByShipPortId(id);
+        }
+
     }
 }

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Core.Model.Workers;
 using CSharpFunctionalExtensions;
-using Core.Model.Workers;
+using System;
+using System.Collections.Generic;
 
 namespace Core.Model.TransportStates
 {
@@ -16,7 +17,7 @@ namespace Core.Model.TransportStates
             return result;
         }
 
-        protected override Result<Ship> AddShip(Transport transport, Ship ship)
+        public override Result<Ship> AddShip(Transport transport, Ship ship)
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
@@ -28,7 +29,7 @@ namespace Core.Model.TransportStates
             return Result.Success(transportRet.Value.Ship);
         }
 
-        protected override Result<ICollection<ShipCaptain>> AddShipCaptain(Transport transport, ICollection<ShipCaptain> shipCaptains)
+        public override Result<ICollection<ShipCaptain>> AddShipCaptain(Transport transport, ICollection<ShipCaptain> shipCaptains)
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
@@ -40,11 +41,11 @@ namespace Core.Model.TransportStates
             return Result.Success(transportRet.Value.ShipCaptains);
         }
 
-        protected override Result<ICollection<Crew>> AddShipCrew(Transport transport, ICollection<Crew> crew)
+        public override Result<ICollection<Crew>> AddShipCrew(Transport transport, ICollection<Crew> crew)
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
+                transport.Ship, transport.ShipCaptains, crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<ICollection<Crew>>(transportRet.Error);
@@ -52,7 +53,7 @@ namespace Core.Model.TransportStates
             return Result.Success(transportRet.Value.Crew);
         }
 
-        protected override Result<ShipCaptain> SetCurrentShipCaptain(Transport transport, ShipCaptain shipCaptain)
+        public override Result<ShipCaptain> SetCurrentShipCaptain(Transport transport, ShipCaptain shipCaptain)
         {
             this.StateChangeCheck(transport);
             return Result.Failure<ShipCaptain>("You can't change ship captain while createing transport");

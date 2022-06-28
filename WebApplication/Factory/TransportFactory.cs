@@ -28,10 +28,6 @@ namespace WebShipPort.Factory
         }
         public Result<Transport> Create(TransportDTO transportDTO)
         {
-            //does not need to have ship captain at begining
-            Maybe<ShipCaptain> currentShipCaptain = null;
-            if (transportDTO.CurrentShipCaptain != null)
-                currentShipCaptain = _shipCaptainService.FindById(transportDTO.CurrentShipCaptain.Id);
 
             List<ShipCaptain> shipCaptains = PopulateShipCaptains(transportDTO);
 
@@ -41,17 +37,22 @@ namespace WebShipPort.Factory
             if (ship.HasNoValue)
                 return Result.Failure<Transport>($"Ship with id:{transportDTO.Ship.Id} dont exist");
 
-            var shipPortFrom = _shipPortService.FindById(transportDTO.ShipPortFrom.Id);
+            var shipPortFrom = _shipPortService.FindByIdWithOutRelationships(transportDTO.ShipPortFrom.Id);
             if (shipPortFrom.HasNoValue)
                 return Result.Failure<Transport>($"Ship port from with id:{transportDTO.ShipPortFrom.Id} dont exist");
 
-            var shipPortTo = _shipPortService.FindById(transportDTO.ShipPortTo.Id);
+            var shipPortTo = _shipPortService.FindByIdWithOutRelationships(transportDTO.ShipPortTo.Id);
             if (shipPortTo.HasNoValue)
                 return Result.Failure<Transport>($"Ship port to with id:{transportDTO.ShipPortTo.Id} dont exist");
 
+            Maybe<ShipCaptain> currentShipCaptain = null; 
+            if (transportDTO.CurrentShipCaptain != null)
+                currentShipCaptain = _shipCaptainService.FindById(transportDTO.CurrentShipCaptain.Id);
+            var shipCaptain = currentShipCaptain.HasValue ? currentShipCaptain.Value : null;
+
             Result<Transport> transport = Transport.Create(transportDTO.Id,
                 transportDTO.TimeFrom, transportDTO.TimeTo, ship.Value, shipCaptains, crew,
-                shipPortFrom.Value, shipPortTo.Value, transportDTO.TransportState, currentShipCaptain.GetValueOrDefault());
+                shipPortFrom.Value, shipPortTo.Value, transportDTO.TransportState, shipCaptain);
 
             if (transport.IsFailure)
                 return Result.Failure<Transport>("Error while creating transport :" + transport.Error);
@@ -84,6 +85,8 @@ namespace WebShipPort.Factory
 
             return shipCaptains;
         }
+
+        public Transport 
 
     }
 }

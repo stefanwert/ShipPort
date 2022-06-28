@@ -9,13 +9,13 @@ namespace Core.Model.TransportStates
     {
 
         protected TransportState() { }
-        protected abstract Result<ICollection<ShipCaptain>> AddShipCaptain(Transport transport, ICollection<ShipCaptain> shipCaptain);
+        public abstract Result<ICollection<ShipCaptain>> AddShipCaptain(Transport transport, ICollection<ShipCaptain> shipCaptain);
 
-        protected abstract Result<ICollection<Crew>> AddShipCrew(Transport transport, ICollection<Crew> crew);
+        public abstract Result<ICollection<Crew>> AddShipCrew(Transport transport, ICollection<Crew> crew);
 
-        protected abstract Result<Ship> AddShip(Transport transport, Ship ship);
+        public abstract Result<Ship> AddShip(Transport transport, Ship ship);
 
-        protected abstract Result<ShipCaptain> SetCurrentShipCaptain(Transport transport, ShipCaptain shipCaptain);
+        public abstract Result<ShipCaptain> SetCurrentShipCaptain(Transport transport, ShipCaptain shipCaptain);
         protected void StateChangeCheck(Transport transport)
         {
             if (transport.IsTimeToTransport() && !transport.IsTransportReady())

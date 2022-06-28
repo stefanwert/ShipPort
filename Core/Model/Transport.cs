@@ -18,22 +18,31 @@ namespace Core.Model
         public DateTime TimeTo { get; private set; }
 
         [Required]
-        public Ship Ship { get; private set; }
+        public Ship Ship { get; set; }
 
-        public ICollection<ShipCaptain> ShipCaptains { get; private set; }
+        public virtual ICollection<ShipCaptain> ShipCaptains { get; private set; }
 
         public ShipCaptain CurrentShipCaptain { get; private set; }
+        public Guid? CurrentShipCaptainId { get; private set; }
+
 
         public ICollection<Crew> Crew { get; private set; }
 
         [Required]
-        public ShipPort ShipPortFrom { get; private set; }
+        public virtual ShipPort ShipPortFrom { get;  set; }
+        //public Guid? ShipPortFromId { get; private set; }
 
         [Required]
-        public ShipPort ShipPortTo { get; private set; }
+        public virtual ShipPort ShipPortTo { get;  set; }
+
+        //public Guid? ShipPortToId { get; private set; }
+
+        //public Guid? ShipId { get; private set; }
 
         [Required]
-        public TransportState TransportState { get; set; }
+        public virtual TransportState TransportState { get; set; }
+
+        public virtual ICollection<Cargo> Cargos { get; private set; }
 
         private Transport() { }
 
@@ -44,18 +53,23 @@ namespace Core.Model
             TimeFrom = timeFrom;
             TimeTo = timeTo;
             Ship = ship;
-            ShipCaptains = shipCaptains;
-            Crew = crew;
             ShipPortFrom = shipPortFrom;
             ShipPortTo = shipPortTo;
+            ShipCaptains = shipCaptains;
+            Crew = crew;
             TransportState = transportState;
             CurrentShipCaptain = currentShipCaptain;
+            if (currentShipCaptain != null)
+                CurrentShipCaptainId = currentShipCaptain.Id;
+            //ShipPortFromId = shipPortFrom.Id;
+            //ShipPortToId = shipPortTo.Id;
+            //ShipId = ship.Id;
         }
 
         public static Result<Transport> Create(Guid id, DateTime timeFrom, DateTime timeTo, Ship ship, ICollection<ShipCaptain> shipCaptains,
-            ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, string transportStateString, ShipCaptain currentShipCaptain)
+            ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, string transportStateString, ShipCaptain currentShipCaptainId)
         {
-            if (timeFrom > timeTo)
+            if (DateTime.Compare(timeFrom, timeTo) >= 0)
             {
                 return Result.Failure<Transport>("Choose start date that is earlier than end date !!!");
             }
@@ -68,7 +82,7 @@ namespace Core.Model
                 return Result.Failure<Transport>("Transport state is not setted !");
             }
             TransportState transportState = ConvertStringToTransportState(transportStateString);
-            Result<Transport> transport = new Transport(id, timeFrom, timeTo, ship, shipCaptains, crew, shipPortFrom, shipPortTo, transportState, currentShipCaptain);
+            Result<Transport> transport = new Transport(id, timeFrom, timeTo, ship, shipCaptains, crew, shipPortFrom, shipPortTo, transportState, currentShipCaptainId);
             return transport;
         }
 
@@ -91,7 +105,7 @@ namespace Core.Model
                 || ShipCaptains == null 
                 || ShipPortFrom == null 
                 || ShipPortTo == null 
-                || TimeFrom == null || TimeTo == null || Crew == null);
+                || TimeFrom == null || TimeTo == null || Crew == null || Crew?.Count!= 0);
             //if (Ship == null || ShipCaptains == null || ShipPortFrom == null ||
             //    ShipPortTo == null || TimeFrom == null || TimeTo == null || Crew == null)
             //{
@@ -121,6 +135,16 @@ namespace Core.Model
                     :CreatingTransport.Name.Equals(transportState) 
                         ? createingTransport.Value 
                         :null;
+        }
+
+        public bool CancelTransport()
+        {
+            if (TransportState.ToString().Equals(CreatingTransport.Name))
+            {
+                TransportState = CanceledTransport.Create().Value;
+                return true;
+            }
+            return false;
         }
     }
 }

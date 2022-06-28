@@ -43,7 +43,8 @@ namespace WebApplication123
                                   });
             });
 
-            services.AddTransient<Database>();
+            services.AddDbContext<Database>();
+            //services.AddScoped<Database>();
             services.AddTransient<IWarehouseRepository, WarehouseRepository>();
             services.AddTransient<IWarehouseClerkRepository, WarehouseClerkRepository>();
             services.AddTransient<ICrewRepository, CrewRepository>();
@@ -63,6 +64,7 @@ namespace WebApplication123
             services.AddTransient<TransportFactory>();
             services.AddTransient<ShipFactory>();
             services.AddTransient<ShipPortFactory>();
+            services.AddTransient<WarehouseFactory>();
 
             services.AddHostedService<TimedHostedService>();
 

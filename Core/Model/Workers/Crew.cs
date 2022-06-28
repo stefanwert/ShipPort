@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Model.Workers
@@ -10,6 +11,8 @@ namespace Core.Model.Workers
 
         [Required]
         public CrewRole Role { get; private set; }
+
+        public virtual ICollection<Transport> Transports { get; private set; }
 
         private Crew() : base() { }
         private Crew(int sailingHoursTotal, CrewRole role, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, Guid shipPortId)

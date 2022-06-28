@@ -17,6 +17,7 @@ namespace WebShipPort.DTO
         public int CargoCapacity { get; set; }
 
         public Guid ShipPortId { get; set; }
+        public ICollection<CargoDTO> CargoDTOs {get;set;}
         public WarehouseDTO() { }
 
         public WarehouseDTO(Warehouse warehouse)
@@ -26,6 +27,8 @@ namespace WebShipPort.DTO
             StoreFlammableCargo = warehouse.StoreFlammableCargo;
             CargoCapacity = warehouse.CargoCapacity;
             ShipPortId = warehouse.ShipPortId;
+            if(warehouse.Cargos!= null)
+                CargoDTOs = warehouse.Cargos.Select(x => new CargoDTO(x)).ToList();
         }
 
     }

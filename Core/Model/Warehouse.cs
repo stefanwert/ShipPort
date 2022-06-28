@@ -17,18 +17,21 @@ namespace Core.Model
         public int CargoCapacity { get; private set; }
 
         public Guid ShipPortId { get; private set; }
+
+        public ICollection<Cargo> Cargos { get; private set; }
         private Warehouse() { }
         
-        private Warehouse(Guid id, string name, bool storeFlammableCargo, int cargoCapacity, Guid shipPortId)
+        private Warehouse(Guid id, string name, bool storeFlammableCargo, int cargoCapacity, Guid shipPortId,ICollection<Cargo> cargos)
         {
             Id = id;
             Name = name;
             StoreFlammableCargo = storeFlammableCargo;
             CargoCapacity = cargoCapacity;
             ShipPortId = shipPortId;
+            Cargos = cargos;
         }
 
-        public static Result<Warehouse> Create(Guid id, string name, bool storeFlammableCargo, int cargoCapacity, Guid shipPortId)
+        public static Result<Warehouse> Create(Guid id, string name, bool storeFlammableCargo, int cargoCapacity, Guid shipPortId, ICollection<Cargo> cargos)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -42,7 +45,7 @@ namespace Core.Model
             {
                 return Result.Failure<Warehouse>("Cargo capacity is not setted or negative !");
             }
-            Result<Warehouse> result = new Warehouse(id, name, storeFlammableCargo, cargoCapacity, shipPortId);
+            Result<Warehouse> result = new Warehouse(id, name, storeFlammableCargo, cargoCapacity, shipPortId, cargos);
             return result;
         }
     }

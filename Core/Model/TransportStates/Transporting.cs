@@ -17,29 +17,29 @@ namespace Core.Model.TransportStates
             Result<Transporting> result = new Transporting();
             return result;
         }
-        protected override Result<Ship> AddShip(Transport transport, Ship ship)
+        public override Result<Ship> AddShip(Transport transport, Ship ship)
         {
             this.StateChangeCheck(transport);
             return Result.Failure<Ship>("You can't change ship while transporting !");
         }
 
-        protected override Result<ICollection<ShipCaptain>> AddShipCaptain(Transport transport, ICollection<ShipCaptain> shipCaptains)
+        public override Result<ICollection<ShipCaptain>> AddShipCaptain(Transport transport, ICollection<ShipCaptain> shipCaptains)
         {
             this.StateChangeCheck(transport);
             return Result.Failure<ICollection<ShipCaptain>>("You can't change ship captain while transporting !");
         }
 
-        protected override Result<ICollection<Crew>> AddShipCrew(Transport transport, ICollection<Crew> crew)
+        public override Result<ICollection<Crew>> AddShipCrew(Transport transport, ICollection<Crew> crew)
         {
             this.StateChangeCheck(transport);
             return Result.Failure<ICollection<Crew>>("You can't change ship crew while transporting !");
         }
 
-        protected override Result<ShipCaptain> SetCurrentShipCaptain(Transport transport, ShipCaptain shipCaptain)
+        public override Result<ShipCaptain> SetCurrentShipCaptain(Transport transport, ShipCaptain shipCaptain)
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), shipCaptain);
+                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<ShipCaptain>(transportRet.Error);
@@ -52,5 +52,6 @@ namespace Core.Model.TransportStates
             return Name;
 
         }
+
     }
 }

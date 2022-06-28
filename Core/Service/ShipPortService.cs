@@ -52,5 +52,14 @@ namespace Core.Service
         {
             return ShipPortRepository.DoesShipPortContainWarehouse(warehouseId, shipportId);
         }
+
+        public IEnumerable<ShipPort> GetAllWithOutRelationships()
+        {
+            return ShipPortRepository.GetAllWithOutRelationships();
+        }
+        public Maybe<ShipPort> FindByIdWithOutRelationships(Guid id)
+        {
+            return ShipPortRepository.FindByIdWithOutRelationships(id);
+        }
     }
 }

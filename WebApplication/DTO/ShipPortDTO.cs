@@ -55,7 +55,7 @@ namespace WebShipPort.DTO
             }
 
             Warehouses = new List<WarehouseDTO>();
-            foreach(var warehouse in shipPort.Warehouses)
+            foreach(var warehouse in shipPort.Warehouses ?? Enumerable.Empty<Warehouse>())
             {
                 var warehouseTemp = new WarehouseDTO(warehouse);
                 Warehouses.Add(warehouseTemp);

@@ -1,4 +1,5 @@
 ﻿using Core.Model;
+using Core.Model.test;
 using Core.Model.TransportStates;
 using Core.Model.Workers;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace DataLayer
         private IConfiguration _configuration;
         private string connectionString = "";
 
-        public Database(IConfiguration configuration) : base() 
+        public Database(IConfiguration configuration) : base()
         {
             _configuration = configuration;
             connectionString = _configuration.GetSection("ConnectionStrings").GetSection("ShipPort").Value;
@@ -31,6 +32,12 @@ namespace DataLayer
         public DbSet<Transport> Transports { get; set; }
 
         public DbSet<Warehouse> Warehouses { get; set; }
+
+        public DbSet<Cargo> Cargos { get; set; }
+
+        //public DbSet<Child> Children { get; set; }
+
+        //public DbSet<House> Houses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -65,8 +72,37 @@ namespace DataLayer
                 .HasValue<ShipCaptain>("ShipCaptain")
                 .HasValue<WarehouseClerk>("WarehouseClerk");
 
-            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Transport>()
+                .HasOne(x => x.ShipPortFrom)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<Transport>()
+                .HasOne(x => x.ShipPortTo)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Transport>()
+                .HasMany(x => x.ShipCaptains)
+                .WithMany(x => x.Transports);
+
+            modelBuilder.Entity<Transport>()
+                .HasOne(x => x.CurrentShipCaptain)
+                .WithOne()
+                .HasForeignKey<Transport>(x=>x.CurrentShipCaptainId);
+
+            modelBuilder.Entity<Transport>()
+                .HasOne(x=>x.Ship)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            //modelBuilder.Entity<House>()
+            //    .HasMany(x => x.Children)
+            //    .WithMany(x => x.Houses);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         private string ConvertStateToString(TransportState transportState)

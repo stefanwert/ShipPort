@@ -11,6 +11,8 @@ namespace Core.Model.Workers
 
         public double SailingHoursAsCaptain { get; private set; }
 
+        public virtual ICollection<Transport> Transports { get; private set; }
+
         private ShipCaptain() : base() { }
         private ShipCaptain(double sailingHoursTotal, double sailingHoursAsCaptain, Guid id, string name, string surname, int age, int yearsOfWorking, long salary, bool isAvailable, Guid shipPort):
             base(id, name, surname, age, yearsOfWorking, salary, isAvailable, shipPort)
