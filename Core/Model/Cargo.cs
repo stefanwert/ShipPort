@@ -9,7 +9,6 @@ namespace Core.Model
 {
     public class Cargo
     {
-
         public Guid Id { get; private set; }
 
         public string Name { get; private set; }
