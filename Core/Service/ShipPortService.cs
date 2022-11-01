@@ -37,6 +37,11 @@ namespace Core.Service
             return shipPort == null ? Maybe.None : shipPort;
         }
 
+        public bool ShipPortExist(Guid id)
+        {
+            return ShipPortRepository.ShipPortExist(id);
+        }
+
         public IEnumerable<ShipPort> GetAll()
         {
             return ShipPortRepository.GetAll();

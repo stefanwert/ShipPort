@@ -59,9 +59,27 @@ namespace WebShipPort.HostedServices
             Console.WriteLine("hello");
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                ShipPortService shipPortService = (ShipPortService)scope.ServiceProvider.GetRequiredService(typeof(ShipPortService));
-                var shipports = shipPortService.GetAll();
-
+                //ShipPortService shipPortService = (ShipPortService)scope.ServiceProvider.GetRequiredService(typeof(ShipPortService));
+                //var shipports = shipPortService.GetAll();
+                TransportService transportService = (TransportService)scope.ServiceProvider.GetRequiredService(typeof(TransportService));
+                Database database = (Database)scope.ServiceProvider.GetRequiredService(typeof(Database));
+                foreach(var transport in transportService.GetAllTransporting())
+                {
+                    if (DateTime.Compare(transport.TimeTo, DateTime.Now) <= 0 && transport.IsCurrentStateTransporting())
+                    {
+                        transport.TransportState = new FinishedTransport();
+                    }
+                        
+                }
+                var t = transportService.GetAllCreateing();
+                foreach (var transport in t)
+                {
+                    if (DateTime.Compare(transport.TimeFrom, DateTime.Now) <= 0 && transport.IsCurrentStateCreateing())
+                    {
+                        transport.TransportState = Transporting.Create().Value;
+                    }
+                }
+                database.SaveChanges();
             }
             //foreach (var transport in _transportService.GetAllActive())
             //{

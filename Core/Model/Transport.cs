@@ -12,21 +12,21 @@ namespace Core.Model
         public Guid Id { get; private set; }
 
         [Required]
-        public DateTime TimeFrom { get; private set; }
+        public DateTime TimeFrom { get; set; }
 
         [Required]
-        public DateTime TimeTo { get; private set; }
+        public DateTime TimeTo { get;  set; }
 
         [Required]
         public Ship Ship { get; set; }
 
-        public virtual ICollection<ShipCaptain> ShipCaptains { get; private set; }
+        public virtual ICollection<ShipCaptain> ShipCaptains { get; set; }
 
-        public ShipCaptain CurrentShipCaptain { get; private set; }
-        public Guid? CurrentShipCaptainId { get; private set; }
+        public ShipCaptain CurrentShipCaptain { get; set; }
+        public Guid? CurrentShipCaptainId { get; set; }
 
 
-        public ICollection<Crew> Crew { get; private set; }
+        public ICollection<Crew> Crew { get; set; }
 
         [Required]
         public virtual ShipPort ShipPortFrom { get;  set; }
@@ -42,7 +42,7 @@ namespace Core.Model
         [Required]
         public virtual TransportState TransportState { get; set; }
 
-        public virtual ICollection<Cargo> Cargos { get; private set; }
+        public virtual ICollection<Cargo> Cargos { get; set; }
 
         private Transport() { }
 
@@ -124,8 +124,9 @@ namespace Core.Model
             var canceledTransport = CanceledTransport.Create();
             var transporting = Transporting.Create();
             var createingTransport = CreatingTransport.Create();
+            var finished = new FinishedTransport();
 
-            if (canceledTransport.IsFailure || transporting.IsFailure || createingTransport.IsFailure)
+            if (canceledTransport.IsFailure || transporting.IsFailure || createingTransport.IsFailure )
                 return null;
 
             return CanceledTransport.Name.Equals(transportState) 
@@ -133,8 +134,10 @@ namespace Core.Model
                 :Transporting.Name.Equals(transportState) 
                     ? transporting.Value 
                     :CreatingTransport.Name.Equals(transportState) 
-                        ? createingTransport.Value 
-                        :null;
+                        ? createingTransport.Value
+                        : FinishedTransport.Name.Equals(transportState)
+                            ? finished
+                                : null;
         }
 
         public bool CancelTransport()

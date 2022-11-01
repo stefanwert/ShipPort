@@ -50,7 +50,8 @@ namespace WebShipPort.Controllers
         [HttpPut("update")]
         public IActionResult Update(TransportDTO transportDTO)
         {
-            var transport = _transportFactory.Create(transportDTO);
+            
+            var transport = _transportFactory.CreateForUpdate(transportDTO);
             if (transport.IsFailure)
                 return BadRequest(transport.Error);
 
@@ -94,5 +95,10 @@ namespace WebShipPort.Controllers
             var retList = ret.Select(x => new TransportDTO(x));
             return Ok(retList);
         }
-    } 
+
+        //[HttpPut("update/currentCaptain")]
+        //public IActionResult CurrentCaptain(TransportDTO transportDTO)
+        //{}
+
+    }
 }

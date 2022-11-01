@@ -45,13 +45,13 @@ namespace WebApplication123
 
             services.AddDbContext<Database>();
             //services.AddScoped<Database>();
-            services.AddTransient<IWarehouseRepository, WarehouseRepository>();
-            services.AddTransient<IWarehouseClerkRepository, WarehouseClerkRepository>();
-            services.AddTransient<ICrewRepository, CrewRepository>();
-            services.AddTransient<IShipCaptainRepository, ShipCaptainRepository>();
-            services.AddTransient<ITransportRepository, TransportRepository>();
-            services.AddTransient<IShipPortRepository, ShipPortRepository>();
-            services.AddTransient<IShipRepository, ShipRepository>();
+            services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+            services.AddScoped<IWarehouseClerkRepository, WarehouseClerkRepository>();
+            services.AddScoped<ICrewRepository, CrewRepository>();
+            services.AddScoped<IShipCaptainRepository, ShipCaptainRepository>();
+            services.AddScoped<ITransportRepository, TransportRepository>();
+            services.AddScoped<IShipPortRepository, ShipPortRepository>();
+            services.AddScoped<IShipRepository, ShipRepository>();
 
             services.AddTransient<WarehouseService>();
             services.AddTransient<WarehouseClerkService>();

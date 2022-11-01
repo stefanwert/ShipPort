@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20220626132459_init")]
+    [Migration("20220703135858_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,9 +123,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrentShipCaptainId")
-                        .IsUnique()
-                        .HasFilter("[CurrentShipCaptainId] IS NOT NULL");
+                    b.HasIndex("CurrentShipCaptainId");
 
                     b.HasIndex("ShipId");
 
@@ -296,8 +294,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("Core.Model.Transport", b =>
                 {
                     b.HasOne("Core.Model.Workers.ShipCaptain", "CurrentShipCaptain")
-                        .WithOne()
-                        .HasForeignKey("Core.Model.Transport", "CurrentShipCaptainId");
+                        .WithMany()
+                        .HasForeignKey("CurrentShipCaptainId");
 
                     b.HasOne("Core.Model.Ship", "Ship")
                         .WithMany()

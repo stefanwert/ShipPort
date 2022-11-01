@@ -11,6 +11,7 @@ namespace Core.Repository
     public interface IShipPortRepository
     {
         Maybe<ShipPort> FindById(Guid id);
+        public bool ShipPortExist(Guid id);
         IEnumerable<ShipPort> GetAll();
         Result<ShipPort> Create(ShipPort shipPort);
         Maybe<ShipPort> DeleteById(Guid id);

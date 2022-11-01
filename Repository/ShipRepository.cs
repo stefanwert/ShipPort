@@ -49,8 +49,16 @@ namespace DataLayer
         public Result<Ship> Update(Ship ship)
         {
             Result<Ship> result = Database.Ships.Update(ship).Entity;
+            //var shipToChangeMaybe = FindById(ship.Id);
+            //if (shipToChange.HasNoValue)
+            //    return Result.Failure<Ship>("There is no ship with this id");
+
+            //var shipToChange = shipToChangeMaybe.Value;
+            //shipToChange.Name = ship.Name;
+
+
             Database.SaveChanges();
-            return result;
+            return FindById(ship.Id).Value;
         }
 
         public ICollection<Ship> FindByShipPortId(Guid id)

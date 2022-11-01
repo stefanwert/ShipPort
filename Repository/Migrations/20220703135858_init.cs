@@ -236,9 +236,7 @@ namespace DataLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Transports_CurrentShipCaptainId",
                 table: "Transports",
-                column: "CurrentShipCaptainId",
-                unique: true,
-                filter: "[CurrentShipCaptainId] IS NOT NULL");
+                column: "CurrentShipCaptainId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transports_ShipId",

@@ -72,12 +72,10 @@ namespace DataLayer
                 .HasValue<ShipCaptain>("ShipCaptain")
                 .HasValue<WarehouseClerk>("WarehouseClerk");
 
-
             modelBuilder.Entity<Transport>()
                 .HasOne(x => x.ShipPortFrom)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
-
 
             modelBuilder.Entity<Transport>()
                 .HasOne(x => x.ShipPortTo)
@@ -90,8 +88,7 @@ namespace DataLayer
 
             modelBuilder.Entity<Transport>()
                 .HasOne(x => x.CurrentShipCaptain)
-                .WithOne()
-                .HasForeignKey<Transport>(x=>x.CurrentShipCaptainId);
+                .WithMany();
 
             modelBuilder.Entity<Transport>()
                 .HasOne(x=>x.Ship)

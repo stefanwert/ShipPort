@@ -47,9 +47,13 @@ namespace Core.Service
             return Result.Success(ret.Value);
         }
 
-        public IEnumerable<Transport> GetAllActive()
+        public IEnumerable<Transport> GetAllTransporting()
         {
-            return TransportRepository.GetAllActive();
+            return TransportRepository.GetAllTransporting();
+        }
+        public IEnumerable<Transport> GetAllCreateing()
+        {
+            return TransportRepository.GetAllCreating();
         }
         public ICollection<Transport> FindByShipPortId(Guid id)
         {

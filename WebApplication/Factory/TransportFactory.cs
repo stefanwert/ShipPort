@@ -1,4 +1,5 @@
 ﻿using Core.Model;
+using Core.Model.TransportStates;
 using Core.Model.Workers;
 using Core.Service;
 using CSharpFunctionalExtensions;
@@ -17,14 +18,16 @@ namespace WebShipPort.Factory
         private readonly CrewService _crewService;
 
         private readonly ShipPortService _shipPortService;
+        private readonly TransportService _transportService;
 
 
-        public TransportFactory(ShipCaptainService shipCaptainService, CrewService crewService, ShipService shipService, ShipPortService shipPortService)
+        public TransportFactory(ShipCaptainService shipCaptainService, CrewService crewService, ShipService shipService, ShipPortService shipPortService, TransportService transportService)
         {
             _shipPortService = shipPortService;
             _shipService = shipService;
             _shipCaptainService = shipCaptainService;
             _crewService = crewService;
+            _transportService = transportService;
         }
         public Result<Transport> Create(TransportDTO transportDTO)
         {
@@ -60,6 +63,44 @@ namespace WebShipPort.Factory
             return transport;
         }
 
+        public Result<Transport> CreateForUpdate(TransportDTO transportDTO)
+        {
+            var transport = _transportService.FindById(transportDTO.Id);
+            if (transport.Value.TransportState.ToString().Equals(CreatingTransport.Name))
+            {
+                if (transportDTO.TimeFrom != null)
+                    transport.Value.TimeFrom = transportDTO.TimeFrom;
+
+                if(transportDTO.TimeTo != null)
+                    transport.Value.TimeTo = transportDTO.TimeTo;
+                if(transportDTO.ShipCaptains != null)
+                {
+                    List<ShipCaptain> shipCaptains = PopulateShipCaptains(transportDTO);
+                    transport.Value.ShipCaptains.Clear();
+                    foreach (var sc in shipCaptains)
+                        transport.Value.ShipCaptains.Add(sc);
+                }
+                if(transportDTO.Crew != null)
+                {
+                    List<Crew> crew = PopulateCrew(transportDTO);
+                    transport.Value.Crew.Clear();
+                    foreach (var c in crew)
+                        transport.Value.Crew.Add(c);
+                }
+
+                if(transportDTO.Ship != null)
+                    transport.Value.Ship = _shipService.FindById(transportDTO.Ship.Id).Value;
+            }
+                
+            if(transportDTO.CurrentShipCaptain != null && transport.Value.TransportState.ToString().Equals(Transporting.Name))
+            {
+                var shipCaptain = _shipCaptainService.FindById(transportDTO.CurrentShipCaptain.Id);
+                if(shipCaptain.HasValue)
+                    transport.Value.CurrentShipCaptainId = shipCaptain.Value.Id;
+            }
+
+            return transport.Value;
+        }
         private List<Crew> PopulateCrew(TransportDTO transportDTO)
         {
             List<Crew> crew = new List<Crew>();
@@ -86,7 +127,6 @@ namespace WebShipPort.Factory
             return shipCaptains;
         }
 
-        public Transport 
 
     }
 }

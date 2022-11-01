@@ -43,6 +43,14 @@ namespace DataLayer
             return shipPort == null ? Maybe.None : shipPort;
         }
 
+        public bool ShipPortExist(Guid id)
+        {
+            var shipPort = Database.ShipPorts
+                .Where(x => x.Id == id && !x.Deleted)
+                .FirstOrDefault();
+            return shipPort == null ? false : true ;
+        }
+
         public Maybe<ShipPort> FindByIdWithOutRelationships(Guid id)
         {
             var shipPort = Database.ShipPorts

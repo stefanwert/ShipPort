@@ -1,6 +1,7 @@
 ﻿using Core.Model;
 using Core.Model.test;
 using Core.Model.TransportStates;
+using Core.Model.Workers;
 using Core.Repository;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -20,39 +21,11 @@ namespace DataLayer
         }
         public Result<Transport> Create(Transport transport)
         {
-            //transport.ShipPortFrom = null;
-            //transport.ShipPortTo = null;
-            //transport.Ship = null;
-            //transport.ShipPortFrom = Database.ShipPorts.Where(x => x.Id == transport.ShipPortFrom.Id).First();
-            //transport.ShipPortTo = Database.ShipPorts.Where(x => x.Id == transport.ShipPortTo.Id).First();
-            //transport.Ship = Database.Ships.Where(x => x.Id == transport.Ship.Id).First();
             Result<Transport> ret = Database.Transports.Add(transport).Entity;
             Database.SaveChanges();
             return ret;
-            //testmethod();
-            //return Result.Failure<Transport>("asd");
         }
 
-        //private void testmethod()
-        //{
-        //    House house = new House()
-        //    {
-        //        HouseName = "name222",
-        //        HouseSize = 2,
-        //    };
-        //    var houseSaved = Database.Houses.Add(house);
-        //    Database.SaveChanges();
-
-        //    var listOfHouses = new List<House>();
-        //    listOfHouses.Add(houseSaved.Entity);
-        //    Child child = new Child()
-        //    {
-        //        ChildName = "child Name2222",
-        //        Houses = listOfHouses,
-        //    };
-        //    Database.Children.Add(child);
-        //    Database.SaveChanges();
-        //}
 
         public Maybe<Transport> DeleteById(Guid id)
         {
@@ -88,20 +61,22 @@ namespace DataLayer
 
         public Result<Transport> Update(Transport transport)
         {
-            Result<Transport> result = Database.Transports.Update(transport).Entity;
+            //Result<Transport> result = Database.Transports.Update(transport).Entity;
+            //var test = Database.Transports.Local.Any(e => e.Id == transport.Id);
             Database.SaveChanges();
-            return result;
+            return FindById(transport.Id).Value;
         }
 
-        public IEnumerable<Transport> GetAllActive()
+        public IEnumerable<Transport> GetAllTransporting()
         {
-            return Database.Transports.Include(x => x.Crew)
-                .Include(x => x.ShipCaptains)
-                .Include(x => x.ShipPortFrom)
-                .Include(x => x.ShipPortTo)
-                .Include(x => x.Ship)
-                .Include(x => x.CurrentShipCaptain)
-                .Where(x => x.TransportState.Equals(Transporting.Name));
+            var t = GetAll();
+            return t.Where(x => 
+            x.TransportState.ToString().Equals(Transporting.Name));
+        }
+        public IEnumerable<Transport> GetAllCreating()
+        {
+            return GetAll()
+                .Where(x => x.TransportState.ToString().Equals(CreatingTransport.Name));
         }
         public ICollection<Transport> FindByShipPortId(Guid id)
         {
