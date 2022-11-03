@@ -14,6 +14,8 @@ namespace Core.Model
         public string Name { get; private set; }
         public int Quantity { get; private set; }
         public bool Flammable { get; private set; }
+        public Guid? TransportId { get; private set; }
+        public Guid? WarehouseId { get; private set; }
 
         private Cargo() { }
         private Cargo(Guid id, string name, int quantity, bool flammable)
@@ -24,6 +26,16 @@ namespace Core.Model
             Flammable = flammable;
         }
 
+        private Cargo(Guid id, string name, int quantity, bool flammable, Guid? transportId, Guid? warehouseId)
+        {
+            Id = id;
+            Name = name;
+            Quantity = quantity;
+            Flammable = flammable;
+            TransportId = transportId;
+            WarehouseId = warehouseId;
+        }
+
         public static Result<Cargo> Create(Guid id, string name, int quentity, bool flammable)
         {
             if (String.IsNullOrWhiteSpace(name))
@@ -31,6 +43,16 @@ namespace Core.Model
             if (quentity <= 0)
                 return Result.Failure<Cargo>("Quentity cant be zero or negative");
             Result<Cargo> ret = new Cargo(id, name, quentity, flammable);
+            return ret;
+        }
+
+        public static Result<Cargo> Create(Guid id, string name, int quentity, bool flammable, Guid? transportId, Guid? warehouseId)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+                return Result.Failure<Cargo>("You didnt enterd name for cargo");
+            if (quentity <= 0)
+                return Result.Failure<Cargo>("Quentity cant be zero or negative");
+            Result<Cargo> ret = new Cargo(id, name, quentity, flammable, transportId, warehouseId);
             return ret;
         }
     }

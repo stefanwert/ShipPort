@@ -1,24 +1,26 @@
 ﻿using Core.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebShipPort.DTO
 {
     public class CargoDTO
     {
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
-        public int Quantity { get; private set; }
-        public bool Flammable { get; private set; }
-
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int Quantity { get; set; }
+        public bool Flammable { get; set; }
+        public Guid? TransportId { get; set; }
+        public Guid? WarehouseId { get; set; }
+        public CargoDTO() { }
         public CargoDTO(Cargo cargo)
         {
             Id = cargo.Id;
             Name = cargo.Name;
             Quantity = cargo.Quantity;
             Flammable = cargo.Flammable;
+            TransportId = cargo.TransportId;
+            WarehouseId = cargo.WarehouseId;
         }
+
     }
 }

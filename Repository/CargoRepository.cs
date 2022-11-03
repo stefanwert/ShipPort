@@ -1,6 +1,7 @@
 ﻿using Core.Model;
 using Core.Repository;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,12 +42,22 @@ namespace DataLayer
         {
             return Database.Cargos;
         }
-
+        public IEnumerable<Cargo> GetAllThatIsNotTrasnporting()
+        {
+            var test2 = Database.Cargos.ToList();
+            //var test = Database.Cargos
+            //    .Where(x => x.TransportId != Guid.Empty).ToList();
+            return test2;
+        }
         public Result<Cargo> Update(Cargo cargo)
         {
             Result<Cargo> result = Database.Cargos.Update(cargo).Entity;
             Database.SaveChanges();
             return result;
+        }
+        public IEnumerable<Cargo> GetAllFromWarehouse(Guid warehouseId)
+        {
+            return Database.Cargos.Where(x => x.WarehouseId == warehouseId);
         }
     }
 }

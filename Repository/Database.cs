@@ -95,6 +95,11 @@ namespace DataLayer
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
 
+            //modelBuilder.Entity<Transport>()
+            //    .HasMany(x=>x.Cargos)
+            //    .WithOne()
+            //    .HasForeignKey(x=>x.TransportId);
+
             //modelBuilder.Entity<House>()
             //    .HasMany(x => x.Children)
             //    .WithMany(x => x.Houses);

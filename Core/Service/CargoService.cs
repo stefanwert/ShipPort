@@ -43,10 +43,20 @@ namespace Core.Service
             return CargoRepository.GetAll();
         }
 
+        public IEnumerable<Cargo> GetAllThatIsNotTrasnporting()
+        {
+            return CargoRepository.GetAllThatIsNotTrasnporting();
+        }
+
         public Result<Cargo> Update(Cargo crewMember)
         {
             Result<Cargo> ret = CargoRepository.Update(crewMember);
             return Result.Success(ret.Value);
+        }
+
+        public IEnumerable<Cargo> GetAllFromWarehouse(Guid warehouseId)
+        {
+            return CargoRepository.GetAllFromWarehouse(warehouseId);
         }
     }
 }

@@ -12,6 +12,9 @@ namespace Core.Repository
     {
         Maybe<Cargo> FindById(Guid id);
         IEnumerable<Cargo> GetAll();
+        IEnumerable<Cargo> GetAllThatIsNotTrasnporting();
+
+        IEnumerable<Cargo> GetAllFromWarehouse(Guid warehouseId);
         Result<Cargo> Create(Cargo cargo);
         Maybe<Cargo> DeleteById(Guid id);
         Result<Cargo> Update(Cargo cargo);

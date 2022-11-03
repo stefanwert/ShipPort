@@ -29,6 +29,14 @@ namespace WebShipPort.Controllers
             return Ok(retList);
         }
 
+        [HttpGet("GetAllThatIsNotTrasnporting")]
+        public IActionResult GetAllThatIsNotTrasnporting()
+        {
+            IEnumerable<Cargo> crewList = CargoService.GetAllThatIsNotTrasnporting();
+            var retList = crewList.Select(x => new CargoDTO(x));
+            return Ok(retList);
+        }
+
         [HttpPost]
         public IActionResult Create(CargoDTO cargoDTO)
         {
