@@ -16,18 +16,25 @@ namespace WebShipPort.Factory
         private readonly ShipService _shipService;
 
         private readonly CrewService _crewService;
+        private readonly CargoService _cargoService;
 
         private readonly ShipPortService _shipPortService;
         private readonly TransportService _transportService;
 
 
-        public TransportFactory(ShipCaptainService shipCaptainService, CrewService crewService, ShipService shipService, ShipPortService shipPortService, TransportService transportService)
+        public TransportFactory(ShipCaptainService shipCaptainService,
+                                CrewService crewService,
+                                ShipService shipService,
+                                ShipPortService shipPortService,
+                                TransportService transportService,
+                                CargoService cargoService)
         {
             _shipPortService = shipPortService;
             _shipService = shipService;
             _shipCaptainService = shipCaptainService;
             _crewService = crewService;
             _transportService = transportService;
+            _cargoService = cargoService;
         }
         public Result<Transport> Create(TransportDTO transportDTO)
         {
@@ -35,6 +42,8 @@ namespace WebShipPort.Factory
             List<ShipCaptain> shipCaptains = PopulateShipCaptains(transportDTO);
 
             List<Crew> crew = PopulateCrew(transportDTO);
+
+            List<Cargo> cargo = PopulateCargo(transportDTO);
 
             var ship = _shipService.FindById(transportDTO.Ship.Id);
             if (ship.HasNoValue)
@@ -53,9 +62,10 @@ namespace WebShipPort.Factory
                 currentShipCaptain = _shipCaptainService.FindById(transportDTO.CurrentShipCaptain.Id);
             var shipCaptain = currentShipCaptain.HasValue ? currentShipCaptain.Value : null;
 
+
             Result<Transport> transport = Transport.Create(transportDTO.Id,
                 transportDTO.TimeFrom, transportDTO.TimeTo, ship.Value, shipCaptains, crew,
-                shipPortFrom.Value, shipPortTo.Value, transportDTO.TransportState, shipCaptain);
+                shipPortFrom.Value, shipPortTo.Value, transportDTO.TransportState, shipCaptain, cargo);
 
             if (transport.IsFailure)
                 return Result.Failure<Transport>("Error while creating transport :" + transport.Error);
@@ -112,6 +122,19 @@ namespace WebShipPort.Factory
             }
 
             return crew;
+        }
+
+        private List<Cargo> PopulateCargo(TransportDTO transportDTO)
+        {
+            List<Cargo> cargo = new List<Cargo>();
+            foreach (var cargoItem in transportDTO.Cargos ?? Enumerable.Empty<CargoDTO>())
+            {
+                var cargoMaybe = _cargoService.FindById(cargoItem.Id);
+                if (cargoMaybe.HasValue)
+                    cargo.Add(cargoMaybe.Value);
+            }
+
+            return cargo;
         }
 
         private List<ShipCaptain> PopulateShipCaptains(TransportDTO transportDTO)

@@ -39,7 +39,7 @@ namespace Core.Model.TransportStates
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
+                transport.Ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain, transport.Cargos);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<ShipCaptain>(transportRet.Error);

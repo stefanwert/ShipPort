@@ -47,7 +47,7 @@ namespace Core.Model
         private Transport() { }
 
         private Transport(Guid id, DateTime timeFrom, DateTime timeTo, Ship ship, ICollection<ShipCaptain> shipCaptains,
-            ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, TransportState transportState, ShipCaptain currentShipCaptain)
+            ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, TransportState transportState, ShipCaptain currentShipCaptain, ICollection<Cargo> cargos)
         {
             Id = id;
             TimeFrom = timeFrom;
@@ -61,13 +61,14 @@ namespace Core.Model
             CurrentShipCaptain = currentShipCaptain;
             if (currentShipCaptain != null)
                 CurrentShipCaptainId = currentShipCaptain.Id;
+            Cargos = cargos;
             //ShipPortFromId = shipPortFrom.Id;
             //ShipPortToId = shipPortTo.Id;
             //ShipId = ship.Id;
         }
 
         public static Result<Transport> Create(Guid id, DateTime timeFrom, DateTime timeTo, Ship ship, ICollection<ShipCaptain> shipCaptains,
-            ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, string transportStateString, ShipCaptain currentShipCaptainId)
+            ICollection<Crew> crew, ShipPort shipPortFrom, ShipPort shipPortTo, string transportStateString, ShipCaptain currentShipCaptainId, ICollection<Cargo> cargos)
         {
             if (DateTime.Compare(timeFrom, timeTo) >= 0)
             {
@@ -82,7 +83,7 @@ namespace Core.Model
                 return Result.Failure<Transport>("Transport state is not setted !");
             }
             TransportState transportState = ConvertStringToTransportState(transportStateString);
-            Result<Transport> transport = new Transport(id, timeFrom, timeTo, ship, shipCaptains, crew, shipPortFrom, shipPortTo, transportState, currentShipCaptainId);
+            Result<Transport> transport = new Transport(id, timeFrom, timeTo, ship, shipCaptains, crew, shipPortFrom, shipPortTo, transportState, currentShipCaptainId, cargos);
             return transport;
         }
 

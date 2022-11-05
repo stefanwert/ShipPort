@@ -56,6 +56,7 @@ namespace DataLayer
                 .Include(x => x.ShipPortFrom)
                 .Include(x => x.ShipPortTo)
                 .Include(x=>x.CurrentShipCaptain)
+                .Include(x => x.Cargos)
                 .Include(x => x.Ship);
         }
 
@@ -86,6 +87,7 @@ namespace DataLayer
                 .Include(x => x.ShipPortTo)
                 .Include(x => x.Ship)
                 .Include(x => x.CurrentShipCaptain)
+                .Include(x => x.Cargos)
                 .Where(x => x.ShipPortFrom.Id == id || x.ShipPortTo.Id == id).ToList();
         }
 

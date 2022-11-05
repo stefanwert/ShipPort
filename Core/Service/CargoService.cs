@@ -43,9 +43,9 @@ namespace Core.Service
             return CargoRepository.GetAll();
         }
 
-        public IEnumerable<Cargo> GetAllThatIsNotTrasnporting()
+        public IEnumerable<Cargo> GetAllThatIsNotTrasnporting(Guid warehouseId)
         {
-            return CargoRepository.GetAllThatIsNotTrasnporting();
+            return CargoRepository.GetAllThatIsNotTrasnporting(warehouseId);
         }
 
         public Result<Cargo> Update(Cargo crewMember)

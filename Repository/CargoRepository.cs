@@ -42,12 +42,12 @@ namespace DataLayer
         {
             return Database.Cargos;
         }
-        public IEnumerable<Cargo> GetAllThatIsNotTrasnporting()
+        public IEnumerable<Cargo> GetAllThatIsNotTrasnporting(Guid warehouseId)
         {
             var test2 = Database.Cargos.ToList();
-            //var test = Database.Cargos
-            //    .Where(x => x.TransportId != Guid.Empty).ToList();
-            return test2;
+            var test = Database.Cargos
+                .Where(x => x.TransportId == null && x.WarehouseId == warehouseId).ToList();
+            return test;
         }
         public Result<Cargo> Update(Cargo cargo)
         {

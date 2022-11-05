@@ -12,7 +12,7 @@ namespace Core.Repository
     {
         Maybe<Cargo> FindById(Guid id);
         IEnumerable<Cargo> GetAll();
-        IEnumerable<Cargo> GetAllThatIsNotTrasnporting();
+        IEnumerable<Cargo> GetAllThatIsNotTrasnporting(Guid warehouseId);
 
         IEnumerable<Cargo> GetAllFromWarehouse(Guid warehouseId);
         Result<Cargo> Create(Cargo cargo);

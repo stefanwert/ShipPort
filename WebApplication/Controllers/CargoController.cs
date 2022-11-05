@@ -30,9 +30,9 @@ namespace WebShipPort.Controllers
         }
 
         [HttpGet("GetAllThatIsNotTrasnporting")]
-        public IActionResult GetAllThatIsNotTrasnporting()
+        public IActionResult GetAllThatIsNotTrasnporting(Guid warehouseId)
         {
-            IEnumerable<Cargo> crewList = CargoService.GetAllThatIsNotTrasnporting();
+            IEnumerable<Cargo> crewList = CargoService.GetAllThatIsNotTrasnporting(warehouseId);
             var retList = crewList.Select(x => new CargoDTO(x));
             return Ok(retList);
         }
@@ -41,7 +41,7 @@ namespace WebShipPort.Controllers
         public IActionResult Create(CargoDTO cargoDTO)
         {
             var id = Guid.NewGuid();
-            Result<Cargo> result = Cargo.Create(cargoDTO.Id, cargoDTO.Name, cargoDTO.Quantity, cargoDTO.Flammable);
+            Result<Cargo> result = Cargo.Create(cargoDTO.Id, cargoDTO.Name, cargoDTO.Quantity, cargoDTO.Flammable, cargoDTO.Image, cargoDTO.TransportId, cargoDTO.WarehouseId);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -56,7 +56,7 @@ namespace WebShipPort.Controllers
         [HttpPut("update")]
         public IActionResult Update(CargoDTO cargoDTO)
         {
-            Result<Cargo> result = Cargo.Create(cargoDTO.Id, cargoDTO.Name, cargoDTO.Quantity, cargoDTO.Flammable);
+            Result<Cargo> result = Cargo.Create(cargoDTO.Id, cargoDTO.Name, cargoDTO.Quantity, cargoDTO.Flammable, cargoDTO.Image, cargoDTO.TransportId, cargoDTO.WarehouseId);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 

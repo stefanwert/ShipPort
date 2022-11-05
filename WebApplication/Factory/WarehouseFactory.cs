@@ -23,7 +23,7 @@ namespace WebShipPort.Factory
             List<Cargo> cargos = new List<Cargo>();//= warehouseDTO.CargoDTOs.Select(x => Cargo.Create(x.Id, x.Name, x.Quantity, x.Flammable).Value).ToList();
             foreach(var cargo in warehouseDTO.CargoDTOs ?? Enumerable.Empty<CargoDTO>())
             {
-                var cargoToAdd = Cargo.Create(cargo.Id, cargo.Name, cargo.Quantity, cargo.Flammable);
+                var cargoToAdd = Cargo.Create(cargo.Id, cargo.Name, cargo.Quantity, cargo.Flammable, cargo.Image);
                 if (cargoToAdd.IsSuccess)
                     cargos.Add(cargoToAdd.Value);
             }

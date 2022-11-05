@@ -21,7 +21,7 @@ namespace Core.Model.TransportStates
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
+                ship, transport.ShipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain, transport.Cargos);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<Ship>(transportRet.Error);
@@ -33,7 +33,7 @@ namespace Core.Model.TransportStates
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                transport.Ship, shipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
+                transport.Ship, shipCaptains, transport.Crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain, transport.Cargos);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<ICollection<ShipCaptain>>(transportRet.Error);
@@ -45,7 +45,7 @@ namespace Core.Model.TransportStates
         {
             this.StateChangeCheck(transport);
             Result<Transport> transportRet = Transport.Create(transport.Id, transport.TimeFrom, transport.TimeTo,
-                transport.Ship, transport.ShipCaptains, crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain);
+                transport.Ship, transport.ShipCaptains, crew, transport.ShipPortFrom, transport.ShipPortTo, this.ToString(), transport.CurrentShipCaptain, transport.Cargos);
             if (transportRet.IsFailure)
             {
                 return Result.Failure<ICollection<Crew>>(transportRet.Error);

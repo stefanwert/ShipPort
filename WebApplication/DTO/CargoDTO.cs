@@ -9,6 +9,7 @@ namespace WebShipPort.DTO
         public string Name { get; set; }
         public int Quantity { get; set; }
         public bool Flammable { get; set; }
+        public string Image { get; set; }
         public Guid? TransportId { get; set; }
         public Guid? WarehouseId { get; set; }
         public CargoDTO() { }
@@ -18,6 +19,7 @@ namespace WebShipPort.DTO
             Name = cargo.Name;
             Quantity = cargo.Quantity;
             Flammable = cargo.Flammable;
+            Image = cargo.Image;
             TransportId = cargo.TransportId;
             WarehouseId = cargo.WarehouseId;
         }
