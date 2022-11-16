@@ -27,8 +27,6 @@ namespace WebApplication123
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            var test = Configuration["Jwt:Issuer"];
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(option =>
                 {
@@ -108,6 +106,8 @@ namespace WebApplication123
             app.UseRouting();
 
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseCors(MyAllowSpecificOrigins);
 
