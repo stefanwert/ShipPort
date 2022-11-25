@@ -1,6 +1,7 @@
 ﻿using Core.Model.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 
@@ -55,7 +56,7 @@ namespace WebShipPort.Controllers
                 {
                     Email = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Email)?.Value,
                     Name = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Name)?.Value,
-                    Role = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Role)?.Value,
+                    Role = (UserRole) Enum.Parse(typeof(UserRole), userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Role)?.Value),
                     Surename = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Surname)?.Value,
                 };
             }

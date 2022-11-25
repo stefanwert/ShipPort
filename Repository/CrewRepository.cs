@@ -10,7 +10,7 @@ namespace DataLayer
 {
     public class CrewRepository : ICrewRepository
     {
-        private Database Database;
+        private readonly Database Database;
 
         public CrewRepository(Database database)
         {

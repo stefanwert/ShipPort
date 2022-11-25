@@ -13,7 +13,7 @@ namespace DataLayer
 {
     public class TransportRepository : ITransportRepository
     {
-        private Database Database;
+        private readonly Database Database;
 
         public TransportRepository(Database database)
         {

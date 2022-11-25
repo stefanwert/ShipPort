@@ -10,7 +10,7 @@ namespace DataLayer
 {
     public class ShipPortRepository : IShipPortRepository
     {
-        private Database Database;
+        private readonly Database Database;
 
         public ShipPortRepository(Database database)
         {

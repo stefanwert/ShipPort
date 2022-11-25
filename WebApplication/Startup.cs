@@ -76,6 +76,7 @@ namespace WebApplication123
             services.AddScoped<IShipPortRepository, ShipPortRepository>();
             services.AddScoped<IShipRepository, ShipRepository>();
             services.AddScoped<ICargoRepository, CargoRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddTransient<WarehouseService>();
             services.AddTransient<WarehouseClerkService>();
@@ -85,6 +86,7 @@ namespace WebApplication123
             services.AddTransient<ShipPortService>();
             services.AddTransient<ShipService>();
             services.AddTransient<CargoService>();
+            services.AddTransient<UserService>();
 
             services.AddTransient<TransportFactory>();
             services.AddTransient<ShipFactory>();

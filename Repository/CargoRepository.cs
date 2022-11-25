@@ -12,7 +12,7 @@ namespace DataLayer
 {
     public class CargoRepository : ICargoRepository
     {
-        private Database Database;
+        private readonly Database Database;
         public CargoRepository(Database database)
         {
             Database = database;

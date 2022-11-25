@@ -1,4 +1,5 @@
 ﻿using Core.Model.Users;
+using Core.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,10 +19,11 @@ namespace WebShipPort.Controllers
     public class LoginController : Controller
     {
         private IConfiguration _config;
-
-        public LoginController(IConfiguration configuration)
+        private readonly UserService UserService;
+        public LoginController(IConfiguration configuration, UserService userService)
         {
             _config = configuration;
+            UserService = userService;
         }
 
         [AllowAnonymous]
@@ -49,7 +51,7 @@ namespace WebShipPort.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Email),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Surname, user.Surename),
-                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
                 new Claim(ClaimTypes.Name, user.Name)
             };
 
@@ -64,14 +66,13 @@ namespace WebShipPort.Controllers
 
         private User Authenticate(User userLogin)
         {
-            //var currentUser = UserConstants.Users.FirstOrDefault(o => o.Username.ToLower() == userLogin.Username.ToLower() && o.Password == userLogin.Password);
-            return userLogin;
-            //if (currentUser != null)
-            //{
-            //    return currentUser;
-            //}
+            var currentUser = UserService.DoesUserExists(userLogin.Email, userLogin.Password);
+            if (currentUser.IsSuccess)
+            {
+                return currentUser.Value;
+            }
 
-            //return null;
+            return null;
         }
     }
 }

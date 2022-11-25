@@ -12,7 +12,7 @@ namespace DataLayer
 {
     public class WarehouseClerkRepository : IWarehouseClerkRepository
     {
-        private Database Database;
+        private readonly Database Database;
 
         public WarehouseClerkRepository(Database database)
         {

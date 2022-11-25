@@ -1,6 +1,7 @@
 ﻿using Core.Model;
 using Core.Model.test;
 using Core.Model.TransportStates;
+using Core.Model.Users;
 using Core.Model.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -34,6 +35,8 @@ namespace DataLayer
         public DbSet<Warehouse> Warehouses { get; set; }
 
         public DbSet<Cargo> Cargos { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         //public DbSet<Child> Children { get; set; }
 

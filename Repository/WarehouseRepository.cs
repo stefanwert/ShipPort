@@ -10,7 +10,7 @@ namespace DataLayer
 {
     public class WarehouseRepository : IWarehouseRepository
     {
-        private Database Database;
+        private readonly Database Database;
 
         public WarehouseRepository(Database database)
         {
