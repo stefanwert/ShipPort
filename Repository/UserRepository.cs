@@ -34,6 +34,20 @@ namespace DataLayer
 
         public Result<User> DoesUserExists(string email, string password)
         {
+            //var user = new User()
+            //{
+            //    Email = "stefan@gmail.com",
+            //    Name = "stefan",
+            //    Password = "stefan",
+            //    Role = UserRole.Admin,
+            //    Surename = "Petrovic",
+            //    Id = Guid.NewGuid()
+            //};
+            //Database.Users.RemoveRange(Database.Users);
+            //Database.SaveChanges();
+            //Database.Users.Add(user);
+            //Database.SaveChanges();
+
             Result<User> ret = Database.Users.Where(u => u.Email.Equals(email) && u.Password.Equals(password)).FirstOrDefault();
             return ret;
         }   

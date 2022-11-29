@@ -40,6 +40,11 @@ namespace Core.Service
             return WarehouseRepository.GetAll();
         }
 
+        public IEnumerable<Warehouse> GetAllWithCargos()
+        {
+            return WarehouseRepository.GetAllWithCargos();
+        }
+
         public Result<Warehouse> Update(Warehouse warehouse)
         {
             Result<Warehouse> ret = WarehouseRepository.Update(warehouse);

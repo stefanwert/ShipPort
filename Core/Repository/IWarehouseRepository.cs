@@ -11,6 +11,7 @@ namespace Core.Repository
     {
         Maybe<Warehouse> FindById(Guid id);
         IEnumerable<Warehouse> GetAll();
+        IEnumerable<Warehouse> GetAllWithCargos();
         Result<Warehouse> Create(Warehouse warehouse);
         Maybe<Warehouse> DeleteById(Guid id);
         Result<Warehouse> Update(Warehouse warehouse);

@@ -21,6 +21,11 @@ namespace WebShipPort.DTO
 
         public ICollection<WarehouseDTO> Warehouses { get; set; }
 
+        public int NumberOfWorker { get; set; }
+        public int NumberOfShips { get; set; }
+        public int NumberOfWarehouses { get; set; }
+        public int NumberOfWarehousesThatStoreFlammable { get; set; }
+
         public ShipPortDTO() { }
         public ShipPortDTO(ShipPort shipPort)
         {
@@ -60,6 +65,11 @@ namespace WebShipPort.DTO
                 var warehouseTemp = new WarehouseDTO(warehouse);
                 Warehouses.Add(warehouseTemp);
             }
+
+            NumberOfWorker = Workers.Count;
+            NumberOfShips = Ships.Count;
+            NumberOfWarehouses = Warehouses.Count;
+            NumberOfWarehousesThatStoreFlammable = Warehouses.Where(x => x.StoreFlammableCargo == true).Count();
         }
     }
 }

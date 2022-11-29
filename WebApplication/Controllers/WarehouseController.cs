@@ -32,6 +32,14 @@ namespace WebShipPort.Controllers
             return Ok(retList);
         }
 
+        [HttpGet("GetAllWithCargos")]
+        public IActionResult GetAllWithCargos()
+        {
+            IEnumerable<Warehouse> warehouseList = WarehouseService.GetAllWithCargos();
+            var retList = warehouseList.Select(x => new WarehouseDTO(x));
+            return Ok(retList);
+        }
+
         [HttpPost]
         public IActionResult Create(WarehouseDTO warehouseDTO)
         {

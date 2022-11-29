@@ -43,6 +43,11 @@ namespace DataLayer
             return Database.Warehouses;
         }
 
+        public IEnumerable<Warehouse> GetAllWithCargos()
+        {
+            return Database.Warehouses.Include(x => x.Cargos);
+        }
+
         public Result<Warehouse> Update(Warehouse warehouse)
         {
             Result<Warehouse> result = Database.Warehouses.Update(warehouse).Entity;
